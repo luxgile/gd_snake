@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://ban4e5blhjue6"]
+
+[ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://snake.tscn" id="1_a2gub"]
+[ext_resource type="Script" path="res://camera.gd" id="2_bt02j"]
+[ext_resource type="Script" path="res://world.gd" id="2_c5iu4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eslam"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ytmuu"]
+sky_material = SubResource("ProceduralSkyMaterial_eslam")
+
+[sub_resource type="Environment" id="Environment_hmlkr"]
+background_mode = 2
+sky = SubResource("Sky_ytmuu")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8la32"]
+albedo_color = Color(0.635294, 0.443137, 0.137255, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gwjjg"]
+material = SubResource("StandardMaterial3D_8la32")
+
+[node name="game" type="Node3D"]
+
+[node name="snake" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_a2gub")]
+transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, 0, 0, -10.4663)
+world = NodePath("../world")
+height_offset = 1.0
+
+[node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
+script = ExtResource("2_bt02j")
+target = NodePath("../snake")
+distance = 10.0
+
+[node name="light & env" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="light & env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="light & env"]
+environment = SubResource("Environment_hmlkr")
+
+[node name="world" type="Node3D" parent="."]
+script = ExtResource("2_c5iu4")
+radius = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="world"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("SphereMesh_gwjjg")
