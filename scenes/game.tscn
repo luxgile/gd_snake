@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=11 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
+[ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
 [ext_resource type="Script" path="res://src/camera.gd" id="2_3g7ar"]
 [ext_resource type="Script" path="res://src/world.gd" id="3_wcrvl"]
+[ext_resource type="PackedScene" uid="uid://dvuaagoa7ojjp" path="res://scenes/food.tscn" id="4_vk0ks"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eslam"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -12,10 +14,14 @@ ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 sky_material = SubResource("ProceduralSkyMaterial_eslam")
 
 [sub_resource type="Environment" id="Environment_hmlkr"]
-background_mode = 2
+background_mode = 1
 sky = SubResource("Sky_ytmuu")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.7
+ambient_light_energy = 6.56
 tonemap_mode = 2
 glow_enabled = true
+glow_blend_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8la32"]
 albedo_color = Color(0.635294, 0.443137, 0.137255, 1)
@@ -25,21 +31,28 @@ material = SubResource("StandardMaterial3D_8la32")
 
 [node name="game" type="Node3D"]
 
+[node name="food_spawner" type="Node" parent="." node_paths=PackedStringArray("planet")]
+script = ExtResource("1_e42v8")
+planet = NodePath("../world")
+s_food = ExtResource("4_vk0ks")
+
 [node name="snake" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_a2gub")]
-transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, 0, 0, -10.4663)
+transform = Transform3D(0.999979, -0.00144312, 0.0063773, 0.00637425, -0.00211577, -0.999978, 0.00145659, 0.999997, -0.00210652, 0.0214922, 0.0315097, -25.4186)
+starting_parts = 3
 world = NodePath("../world")
-height_offset = 1.0
 
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
 script = ExtResource("2_3g7ar")
 target = NodePath("../snake")
 distance = 10.0
+predict_target = 9.0
 
 [node name="light & env" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="light & env"]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, -0.159742, -3.8147e-06, 0.257133)
+light_color = Color(0.756863, 0.745098, 0, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="light & env"]
@@ -47,8 +60,8 @@ environment = SubResource("Environment_hmlkr")
 
 [node name="world" type="Node3D" parent="."]
 script = ExtResource("3_wcrvl")
-radius = 10.0
+radius = 25.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="world"]
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
 mesh = SubResource("SphereMesh_gwjjg")

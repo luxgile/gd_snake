@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvuaagoa7ojjp"]
+
+[ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_adby0"]
+albedo_color = Color(0.859056, 0.531408, 0.985458, 1)
+emission_enabled = true
+emission = Color(0.858824, 0.533333, 0.984314, 1)
+emission_energy_multiplier = 20.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_hov6d"]
+material = SubResource("StandardMaterial3D_adby0")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6a305"]
+radius = 0.292764
+
+[node name="food" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.92188, -24.0878)
+script = ExtResource("1_5jbp2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("SphereMesh_hov6d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_6a305")
