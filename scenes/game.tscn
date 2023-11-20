@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://ban4e5blhjue6"]
 
-[ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://snake.tscn" id="1_a2gub"]
-[ext_resource type="Script" path="res://camera.gd" id="2_bt02j"]
-[ext_resource type="Script" path="res://world.gd" id="2_c5iu4"]
+[ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
+[ext_resource type="Script" path="res://src/camera.gd" id="2_3g7ar"]
+[ext_resource type="Script" path="res://src/world.gd" id="3_wcrvl"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eslam"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -32,7 +32,7 @@ height_offset = 1.0
 
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
-script = ExtResource("2_bt02j")
+script = ExtResource("2_3g7ar")
 target = NodePath("../snake")
 distance = 10.0
 
@@ -46,7 +46,7 @@ shadow_enabled = true
 environment = SubResource("Environment_hmlkr")
 
 [node name="world" type="Node3D" parent="."]
-script = ExtResource("2_c5iu4")
+script = ExtResource("3_wcrvl")
 radius = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="world"]
