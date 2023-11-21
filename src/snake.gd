@@ -21,24 +21,34 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var up = (position - world.position).normalized()
-	position = world.position + up * (world.radius + height_offset)
+	var world_up = (position - world.position).normalized()
+	var local_forward = -transform.basis.z.normalized()
 
+	# Snap position to world height
+	position = world.position + world_up * (world.radius + height_offset)
+
+	_rotation_mov(world_up, delta)
+	_horizontal_mov(local_forward, delta)
+
+	# Rotate head to always orbit around planet
+	local_forward = world_up.cross(transform.basis.x)
+	var target = position + local_forward 
+	look_at(target, world_up)
+	pass
+
+func _rotation_mov(world_up: Vector3, delta: float) -> void:
 	var delta_rotation = 0
 	if Input.is_action_pressed("rotate_left"):
 		delta_rotation += rot_speed
 	if Input.is_action_pressed("rotate_right"):
 		delta_rotation -= rot_speed
-	rotate(up, delta_rotation * delta)
-
-	var forward = -transform.basis.z.normalized()
-	move_and_collide(forward * speed * delta)
-
-	forward = up.cross(transform.basis.x)
-	var target = position + forward 
-	look_at(target, up)
+	rotate(world_up, delta_rotation * delta)
 	pass
 
+
+func _horizontal_mov(local_forward: Vector3, delta: float) -> void:
+	move_and_collide(local_forward * speed * delta)
+	pass
 
 func spawn_new_part():
 	var new_part = s_snake_part.instantiate()
