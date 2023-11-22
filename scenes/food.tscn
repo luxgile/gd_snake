@@ -17,6 +17,7 @@ radius = 0.292764
 [node name="food" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.92188, -24.0878)
 script = ExtResource("1_5jbp2")
+food_value = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

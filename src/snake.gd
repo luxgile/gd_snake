@@ -13,16 +13,20 @@ class_name Snake
 @export_group("Settings")
 @export var height_offset: float
 
-@export_subgroup("Movement Settings")
+@export_subgroup("Movement")
 @export var brake_speed: float = 10
 @export var normal_speed: float = 10
 @export var acc_speed: float = 10
 @export_range(0, 1) var speed_lerp: float
 @export var rot_speed: float = 1
 
+@export_subgroup("Drifting")
+@export var drift_speed: float
+@export var drift_rot: float
+
 var parts: Array[SnakePart] = []
-var curr_speed: float
-var target_speed: float
+var curr_speed: Vector3
+var target_speed: Vector3
 
 func _ready() -> void:
 	position_cacher.fill_empty(transform.basis.z * 0.2)
@@ -40,7 +44,7 @@ func _process(delta: float) -> void:
 	position = world.position + world_up * (world.radius + height_offset)
 
 	_rotation_mov(world_up, delta)
-	_horizontal_mov(local_forward, delta)
+	_horizontal_mov(delta)
 
 	# Rotate head to always orbit around planet
 	local_forward = world_up.cross(transform.basis.x)
@@ -58,15 +62,16 @@ func _rotation_mov(world_up: Vector3, delta: float) -> void:
 	pass
 
 
-func _horizontal_mov(local_forward: Vector3, delta: float) -> void:
-	target_speed = normal_speed
+func _horizontal_mov(delta: float) -> void:
+	var forward = TUtils.forward(transform)
+	target_speed = forward * normal_speed
 	if Input.is_action_pressed("brake"):
-		target_speed = brake_speed
+		target_speed = forward * brake_speed
 	elif Input.is_action_pressed("accelerate"):
-		target_speed = acc_speed
+		target_speed = forward * acc_speed
 
 	curr_speed = lerp(target_speed, curr_speed, speed_lerp)
-	move_and_collide(local_forward * curr_speed * delta)
+	move_and_collide(curr_speed * delta)
 	pass
 
 func spawn_new_part():

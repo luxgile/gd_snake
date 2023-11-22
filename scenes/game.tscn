@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=14 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -23,8 +23,21 @@ tonemap_mode = 2
 glow_enabled = true
 glow_blend_mode = 1
 
+[sub_resource type="Gradient" id="Gradient_8qa8d"]
+colors = PackedColorArray(0.0532534, 0.619901, 0.547531, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sirka"]
+frequency = 0.0341
+fractal_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dnvcb"]
+in_3d_space = true
+color_ramp = SubResource("Gradient_8qa8d")
+noise = SubResource("FastNoiseLite_sirka")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8la32"]
 albedo_color = Color(0.635294, 0.443137, 0.137255, 1)
+albedo_texture = SubResource("NoiseTexture2D_dnvcb")
 
 [sub_resource type="SphereMesh" id="SphereMesh_gwjjg"]
 material = SubResource("StandardMaterial3D_8la32")
@@ -35,14 +48,16 @@ material = SubResource("StandardMaterial3D_8la32")
 script = ExtResource("1_e42v8")
 planet = NodePath("../world")
 s_food = ExtResource("4_vk0ks")
+max_food = 10
 
 [node name="snake" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_a2gub")]
 transform = Transform3D(0.999979, -0.00144312, 0.0063773, 0.00637425, -0.00211577, -0.999978, 0.00145659, 0.999997, -0.00210652, 0.0214922, 0.0315097, -25.4186)
 world = NodePath("../world")
 starting_parts = 3
+height_offset = 0.1
 brake_speed = 5.0
 acc_speed = 15.0
-speed_lerp = 0.9
+speed_lerp = 0.95
 
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
@@ -51,7 +66,7 @@ target = NodePath("../snake")
 target_offset = Vector3(0, 1, -4)
 position_smoothness = 0.7
 distance = 7.0
-look_offset = Vector3(0, -3, 0)
+look_offset = Vector3(0, -3, 3)
 
 [node name="light & env" type="Node3D" parent="."]
 
