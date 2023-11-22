@@ -1,14 +1,19 @@
 extends Camera3D
 
-@export var target: Node3D
+@export var target: Snake
+@export var target_offset: Vector3
+@export_range(0, 1) var position_smoothness: float
 @export var distance: float
-@export var predict_target: float
+@export var look_offset: Vector3
 
-var last_target_pos: Vector3
 
 func _process(delta: float) -> void:
-	position = target.position + target.transform.basis.y * distance
-	var prediction = target.position + (position - last_target_pos).normalized() * predict_target
-	look_at(prediction, -target.transform.basis.z)
-	last_target_pos = target.position
+	var local_offset = TransformUtils.local_dir(target.transform, target_offset) 
+	var target_pos = target.position + local_offset + target.transform.basis.y * distance
+	position = lerp(target_pos, position, position_smoothness) 
+
+	var local_look_offset = TransformUtils.local_dir(target.transform, look_offset)
+	var target_look = target.position + local_look_offset
+	look_at(target_look, -target.transform.basis.z)
+
 	pass

@@ -22,8 +22,8 @@ size = Vector3(0.903836, 0.590309, 0.81878)
 [node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("position_cacher")]
 script = ExtResource("1_2xa8c")
 s_snake_part = ExtResource("2_ja1wh")
-starting_parts = 1
 position_cacher = NodePath("pos_cacher")
+starting_parts = 1
 height_offset = 0.5
 rot_speed = 2.0
 
