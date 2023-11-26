@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://crk1ahtrbwlbn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbnfg"]
+albedo_color = Color(0.858824, 0.533333, 0.984314, 1)
+emission_enabled = true
+emission = Color(0.858824, 0.533333, 0.984314, 1)
+
+[sub_resource type="Curve" id="Curve_1rp8k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3e4d0"]
+curve = SubResource("Curve_1rp8k")
+
+[sub_resource type="Curve" id="Curve_5nvru"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.493378, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y43y6"]
+curve = SubResource("Curve_5nvru")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o6id0"]
+emission_shape = 1
+emission_sphere_radius = 0.1
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+scale_min = 0.1
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_3e4d0")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.0
+turbulence_noise_speed_random = 0.0
+turbulence_influence_min = 0.09
+turbulence_influence_max = 0.09
+turbulence_influence_over_life = SubResource("CurveTexture_y43y6")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xwf2b"]
+radial_segments = 8
+
+[node name="vfx_food_exp" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_bbnfg")
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_o6id0")
+draw_pass_1 = SubResource("SphereMesh_xwf2b")

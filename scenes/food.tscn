@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvuaagoa7ojjp"]
+[gd_scene load_steps=5 format=3 uid="uid://dvuaagoa7ojjp"]
 
 [ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
 
@@ -14,35 +14,6 @@ material = SubResource("StandardMaterial3D_adby0")
 [sub_resource type="SphereShape3D" id="SphereShape3D_6a305"]
 radius = 0.292764
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5enui"]
-albedo_color = Color(0.858824, 0.533333, 0.984314, 1)
-emission_enabled = true
-emission = Color(0.858824, 0.533333, 0.984314, 1)
-
-[sub_resource type="Curve" id="Curve_w1ieq"]
-_data = [Vector2(0, 0.0210526), 0.0, 0.0, 0, 0, Vector2(0.122517, 1), 0.0, 0.0, 0, 0, Vector2(0.288079, 0.126316), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_wyin4"]
-curve = SubResource("Curve_w1ieq")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ydydn"]
-lifetime_randomness = 0.5
-emission_shape = 2
-emission_sphere_radius = 0.01
-direction = Vector3(0, 0, 0)
-spread = 180.0
-gravity = Vector3(0, 0, 0)
-initial_velocity_min = 1.0
-initial_velocity_max = 1.0
-scale_min = 0.05
-scale_max = 0.1
-scale_curve = SubResource("CurveTexture_wyin4")
-
-[sub_resource type="SphereMesh" id="SphereMesh_afa1d"]
-radial_segments = 8
-rings = 8
-
 [node name="food" type="StaticBody3D"]
 script = ExtResource("1_5jbp2")
 food_value = 5
@@ -53,12 +24,3 @@ mesh = SubResource("SphereMesh_hov6d")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6a305")
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-material_override = SubResource("StandardMaterial3D_5enui")
-amount = 32
-lifetime = 2.0
-explosiveness = 1.0
-visibility_aabb = AABB(-4, -4.00293, -4, 8, 8, 8)
-process_material = SubResource("ParticleProcessMaterial_ydydn")
-draw_pass_1 = SubResource("SphereMesh_afa1d")

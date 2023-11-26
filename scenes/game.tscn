@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=19 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/world.gd" id="3_wcrvl"]
 [ext_resource type="PackedScene" uid="uid://dvuaagoa7ojjp" path="res://scenes/food.tscn" id="4_vk0ks"]
 [ext_resource type="Sky" uid="uid://da55ujc7yp23v" path="res://graphics/skybox/space_sky.tres" id="5_lt2a1"]
+[ext_resource type="PackedScene" uid="uid://crk1ahtrbwlbn" path="res://scenes/vfx_food_exp.tscn" id="8_ljaga"]
 [ext_resource type="Material" uid="uid://bfl1wvjo08lmn" path="res://graphics/asteroid/asteroid.tres" id="12_lwanm"]
 
 [sub_resource type="Curve" id="Curve_oqhvh"]
@@ -126,3 +127,5 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
 material_override = ExtResource("12_lwanm")
 lod_bias = 0.001
 mesh = SubResource("SphereMesh_gwjjg")
+
+[node name="vfx_food_exp" parent="." instance=ExtResource("8_ljaga")]
