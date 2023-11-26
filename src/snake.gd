@@ -12,6 +12,8 @@ class_name Snake
 
 @export_group("Settings")
 @export var height_offset: float
+@export var height_wave: float
+@export var wave_frequency: float
 
 @export_subgroup("Movement")
 @export var brake_speed: float = 10
@@ -20,6 +22,10 @@ class_name Snake
 @export_range(0, 1) var speed_lerp: float
 @export var rot_speed: float = 1
 
+@export_subgroup("Jump")
+@export var jump_curve: Curve
+@export var jump_timer: Timer
+
 @export_subgroup("Drifting")
 @export var drift_speed: float
 @export var drift_rot: float
@@ -27,8 +33,11 @@ class_name Snake
 var parts: Array[SnakePart] = []
 var curr_speed: Vector3
 var target_speed: Vector3
+var wave_timer: float
+var is_jumping: bool
 
 func _ready() -> void:
+	jump_timer.timeout.connect(func(): is_jumping = false)
 	position_cacher.fill_empty(transform.basis.z * 0.2)
 
 	for i in starting_parts:
@@ -40,8 +49,18 @@ func _process(delta: float) -> void:
 	var world_up = (position - world.position).normalized()
 	var local_forward = -transform.basis.z.normalized()
 
-	# Snap position to world height
-	position = world.position + world_up * (world.radius + height_offset)
+	if (Input.is_action_pressed("jump") and !is_jumping):
+		is_jumping = true
+		jump_timer.start()
+
+	# vertical movement
+	var wave_offset = 0
+	if !is_jumping:
+		wave_timer += delta
+		wave_offset = sin(wave_timer * wave_frequency) * height_wave
+	var timer_ntime = jump_timer.time_left / jump_timer.wait_time
+	var jump_offset = jump_curve.sample(timer_ntime)
+	position = world.position + world_up * (world.radius + height_offset + wave_offset + jump_offset)
 
 	_rotation_mov(world_up, delta)
 	_horizontal_mov(delta)
@@ -84,4 +103,9 @@ func spawn_new_part():
 			snake_part.parent_pos_cacher = parts[-1].pos_cacher 
 		parts.push_back(snake_part)
 		get_parent().add_child.call_deferred(snake_part)
+	pass
+
+
+func kill_snake():
+	print("TODO: Kill the snake")
 	pass

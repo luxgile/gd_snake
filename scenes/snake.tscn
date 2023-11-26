@@ -19,13 +19,14 @@ material = SubResource("StandardMaterial3D_v21m4")
 [sub_resource type="BoxShape3D" id="BoxShape3D_ve38m"]
 size = Vector3(0.903836, 0.590309, 0.81878)
 
-[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("position_cacher")]
+[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("position_cacher", "jump_timer")]
 script = ExtResource("1_2xa8c")
 s_snake_part = ExtResource("2_ja1wh")
 position_cacher = NodePath("pos_cacher")
 starting_parts = 1
 height_offset = 0.5
 rot_speed = 2.0
+jump_timer = NodePath("jump_timer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_smroy")
@@ -56,3 +57,7 @@ area = NodePath("area")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="food_eater/area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.727165)
 shape = SubResource("BoxShape3D_ve38m")
+
+[node name="jump_timer" type="Timer" parent="."]
+wait_time = 0.7
+one_shot = true

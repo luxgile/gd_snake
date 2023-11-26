@@ -1,10 +1,55 @@
-[gd_scene load_steps=14 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=22 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
 [ext_resource type="Script" path="res://src/camera.gd" id="2_3g7ar"]
 [ext_resource type="Script" path="res://src/world.gd" id="3_wcrvl"]
 [ext_resource type="PackedScene" uid="uid://dvuaagoa7ojjp" path="res://scenes/food.tscn" id="4_vk0ks"]
+
+[sub_resource type="Curve" id="Curve_oqhvh"]
+_data = [Vector2(0.0117647, 0), 0.0, 0.0, 0, 0, Vector2(0.6, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1yola"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Gradient" id="Gradient_4pe38"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1ay64"]
+gradient = SubResource("Gradient_4pe38")
+
+[sub_resource type="Curve" id="Curve_44dxq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.545455, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0421052), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_cy50q"]
+curve = SubResource("Curve_44dxq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0s2rt"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+flatness = 1.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = -5.0
+initial_velocity_max = 5.0
+angular_velocity_min = 90.0
+angular_velocity_max = 360.0
+angle_max = 360.0
+scale_min = 0.25
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_cy50q")
+color = Color(1, 0.905882, 0.890196, 1)
+color_ramp = SubResource("GradientTexture1D_1ay64")
+turbulence_enabled = true
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_qv4go"]
+lightmap_size_hint = Vector2i(7, 7)
+orientation = 1
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eslam"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -54,10 +99,24 @@ max_food = 10
 transform = Transform3D(0.999979, -0.00144312, 0.0063773, 0.00637425, -0.00211577, -0.999978, 0.00145659, 0.999997, -0.00210652, 0.0214922, 0.0315097, -25.4186)
 world = NodePath("../world")
 starting_parts = 3
-height_offset = 0.1
+height_offset = 0.2
+height_wave = 0.1
+wave_frequency = 8.0
 brake_speed = 5.0
 acc_speed = 15.0
 speed_lerp = 0.95
+jump_curve = SubResource("Curve_oqhvh")
+
+[node name="vfx_running" type="GPUParticles3D" parent="snake"]
+transform = Transform3D(1, -1.16415e-10, -7.1168e-11, 0, 0.999999, -9.31323e-10, -9.93623e-11, 9.31323e-10, 1, -5.58794e-09, 0.522942, 1.30385e-08)
+visible = false
+material_override = SubResource("StandardMaterial3D_1yola")
+cast_shadow = 0
+amount = 128
+lifetime = 0.5
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_0s2rt")
+draw_pass_1 = SubResource("QuadMesh_qv4go")
 
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)

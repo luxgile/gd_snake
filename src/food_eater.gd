@@ -6,11 +6,15 @@ class_name FoodEater
 
 func _ready() -> void:
 	area.body_entered.connect(_body_entered)
+	area.area_entered.connect(_area_entered)
 	pass
 
+func _area_entered(area: Area3D):
+	if area is Obstacle:
+		snake.kill_snake()
+	pass
 
 func _body_entered(node: Node3D):
-	print(node)
 	if node is Food:
 		var food: Food = node
 		for i in food.food_value:
