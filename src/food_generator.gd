@@ -4,6 +4,7 @@ class_name FoodGenerator
 @export var planet: World
 @export var s_food: PackedScene
 @export var max_food: int = 5
+@export var h_offset: float
 
 var current_food: Array[Food] = []
 
@@ -23,4 +24,5 @@ func _process(delta: float) -> void:
 
 func _random_planet_point() -> Vector3:
 	var rnd_dir = RandomUtils.rand_sphere() 	
-	return rnd_dir * planet.radius
+	var pos = rnd_dir * (planet.radius + h_offset)
+	return pos 

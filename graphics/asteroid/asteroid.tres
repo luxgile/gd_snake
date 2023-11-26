@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://bfl1wvjo08lmn"]
+
+[ext_resource type="Texture2D" uid="uid://kkwl4rqi27lx" path="res://graphics/asteroid/maps/Stylized Moon_BaseColor.png" id="1_jjxo2"]
+[ext_resource type="Texture2D" uid="uid://dfo8lkq5r10be" path="res://graphics/asteroid/maps/Stylized Moon_AmbientOcclusion.png" id="2_ixrca"]
+[ext_resource type="Texture2D" uid="uid://csw3twnos2bjw" path="res://graphics/asteroid/maps/Stylized Moon_Height.png" id="3_7jpth"]
+[ext_resource type="Texture2D" uid="uid://cdb6nkxvvoyw0" path="res://graphics/asteroid/maps/Stylized Moon_Metallic.png" id="4_yvk52"]
+[ext_resource type="Texture2D" uid="uid://gyeedrqld484" path="res://graphics/asteroid/maps/Stylized Moon_Normal.png" id="5_h5p3u"]
+[ext_resource type="Texture2D" uid="uid://cbed8wp6ll107" path="res://graphics/asteroid/maps/Stylized Moon_Roughness.png" id="6_7oe0b"]
+
+[resource]
+albedo_texture = ExtResource("1_jjxo2")
+metallic = 1.0
+metallic_texture = ExtResource("4_yvk52")
+roughness_texture = ExtResource("6_7oe0b")
+normal_enabled = true
+normal_texture = ExtResource("5_h5p3u")
+ao_enabled = true
+ao_texture = ExtResource("2_ixrca")
+heightmap_texture = ExtResource("3_7jpth")

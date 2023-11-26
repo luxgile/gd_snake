@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1x3tc6gctevu"]
+
+[ext_resource type="PackedScene" uid="uid://i237upd1kv67" path="res://graphics/snake/snake.blend" id="1_obw3l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8oj5p"]
+albedo_color = Color(0, 0.780392, 0.882353, 1)
+emission_enabled = true
+emission = Color(0, 0.780962, 0.884148, 1)
+emission_energy_multiplier = 1.9
+
+[node name="snake root" instance=ExtResource("1_obw3l")]
+
+[node name="Cube" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_8oj5p")

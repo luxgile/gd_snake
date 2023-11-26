@@ -4,13 +4,15 @@ class_name Snake
 @export_group("References")
 @export var s_snake_part: PackedScene
 @export var world: World 
+@export var body_vfx: GPUParticles3D
 @export var position_cacher: PositionCacher
-@export var food_eater: Area3D
 
 @export_group("Init")
 @export var starting_parts: int
 
 @export_group("Settings")
+@export var lifetime_per_part: Curve
+@export var part_size_per_part: Curve
 @export var height_offset: float
 @export var height_wave: float
 @export var wave_frequency: float
@@ -46,6 +48,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
+
 	var world_up = (position - world.position).normalized()
 	var local_forward = -transform.basis.z.normalized()
 
@@ -103,6 +107,14 @@ func spawn_new_part():
 			snake_part.parent_pos_cacher = parts[-1].pos_cacher 
 		parts.push_back(snake_part)
 		get_parent().add_child.call_deferred(snake_part)
+	_update_parts_visuals()
+	pass
+
+
+func _update_parts_visuals():
+	for i in parts.size():
+		var p = i as float / parts.size() as float
+		parts[i].scale = Vector3.ONE * part_size_per_part.sample(p)
 	pass
 
 
