@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=21 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -61,9 +61,25 @@ sky = ExtResource("5_lt2a1")
 ambient_light_source = 3
 ambient_light_sky_contribution = 0.7
 ambient_light_energy = 6.56
-tonemap_mode = 2
+reflected_light_source = 2
+sdfgi_use_occlusion = true
+sdfgi_min_cell_size = 9.76563e-05
+sdfgi_cascade0_distance = 0.00625
+sdfgi_max_distance = 0.1
 glow_enabled = true
+glow_strength = 0.85
 glow_blend_mode = 1
+volumetric_fog_density = 0.01
+adjustment_enabled = true
+adjustment_brightness = 1.5
+adjustment_saturation = 2.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_4dris"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 500.0
+dof_blur_far_transition = 1000.0
+dof_blur_near_distance = 0.01
+dof_blur_amount = 0.34
 
 [sub_resource type="SphereMesh" id="SphereMesh_gwjjg"]
 lightmap_size_hint = Vector2i(17, 9)
@@ -113,18 +129,19 @@ look_offset = Vector3(0, -3, 3)
 [node name="light & env" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="light & env"]
-transform = Transform3D(-0.866025, -0.167907, 0.470964, 0, 0.941929, 0.335813, -0.5, 0.290823, -0.815734, 0.570456, -0.332638, 1.01873)
+transform = Transform3D(-0.866025, -0.167907, 0.470964, 0, 0.941929, 0.335813, -0.5, 0.290823, -0.815734, 0, 0, 0)
+light_color = Color(0.886275, 0, 0.407843, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="light & env"]
 environment = SubResource("Environment_hmlkr")
+camera_attributes = SubResource("CameraAttributesPractical_4dris")
 
 [node name="world" type="Node3D" parent="."]
 script = ExtResource("3_wcrvl")
 radius = 25.0
 
 [node name="ico_sphere" parent="world" instance=ExtResource("7_3sttk")]
-transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="world"]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
