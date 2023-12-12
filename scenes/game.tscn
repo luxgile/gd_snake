@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=20 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -9,10 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cyn6ujg3e0ujf" path="res://graphics/asteroid/ico_sphere.tscn" id="7_3sttk"]
 [ext_resource type="PackedScene" uid="uid://crk1ahtrbwlbn" path="res://scenes/vfx_food_exp.tscn" id="8_ljaga"]
 [ext_resource type="Material" uid="uid://bfl1wvjo08lmn" path="res://graphics/asteroid/asteroid.tres" id="12_lwanm"]
-
-[sub_resource type="Curve" id="Curve_oqhvh"]
-_data = [Vector2(0.0117647, 0), 0.0, 0.0, 0, 0, Vector2(0.6, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1yola"]
 transparency = 1
@@ -75,7 +71,6 @@ adjustment_brightness = 1.5
 adjustment_saturation = 2.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_4dris"]
-dof_blur_far_enabled = true
 dof_blur_far_distance = 500.0
 dof_blur_far_transition = 1000.0
 dof_blur_near_distance = 0.01
@@ -104,7 +99,6 @@ wave_frequency = 8.0
 brake_speed = 5.0
 acc_speed = 15.0
 speed_lerp = 0.95
-jump_curve = SubResource("Curve_oqhvh")
 
 [node name="vfx_running" type="GPUParticles3D" parent="snake"]
 transform = Transform3D(1, -1.16415e-10, -7.1168e-11, 0, 0.999999, -9.31323e-10, -9.93623e-11, 9.31323e-10, 1, -5.58794e-09, 0.522942, 1.30385e-08)

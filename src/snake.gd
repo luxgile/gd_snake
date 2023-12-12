@@ -24,9 +24,10 @@ class_name Snake
 @export_range(0, 1) var speed_lerp: float
 @export var rot_speed: float = 1
 
-@export_subgroup("Jump")
-@export var jump_curve: Curve
-@export var jump_timer: Timer
+@export_subgroup("Dash")
+@export var dash_speed: float
+@export var dash_cd: Timer
+@export var dash_dur: Timer
 
 @export_subgroup("Drifting")
 @export var drift_speed: float
@@ -36,38 +37,46 @@ var parts: Array[SnakePart] = []
 var curr_speed: Vector3
 var target_speed: Vector3
 var wave_timer: float
-var is_jumping: bool
+
+func is_dashing(): return not dash_dur.is_stopped()
+func dash_in_cd(): return not dash_cd.is_stopped()
 
 func _ready() -> void:
-	jump_timer.timeout.connect(func(): is_jumping = false)
+	dash_dur.timeout.connect(_on_dash_done)
 	position_cacher.fill_empty(transform.basis.z * 0.2)
 
 	for i in starting_parts:
 		spawn_new_part()
 	pass
 
+func _on_dash_done():
+	dash_cd.start()
+	# TODO: Stop position cacher	
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
 
-	var world_up = (position - world.position).normalized()
 	var local_forward = -transform.basis.z.normalized()
+	var world_up = (position - world.position).normalized()
 
-	if (Input.is_action_pressed("jump") and !is_jumping):
-		is_jumping = true
-		jump_timer.start()
 
 	# vertical movement
 	var wave_offset = 0
-	if !is_jumping:
+	if !is_dashing():
 		wave_timer += delta
 		wave_offset = sin(wave_timer * wave_frequency) * height_wave
-	var timer_ntime = jump_timer.time_left / jump_timer.wait_time
-	var jump_offset = jump_curve.sample(timer_ntime)
-	position = world.position + world_up * (world.radius + height_offset + wave_offset + jump_offset)
+	# var timer_ntime = jump_timer.time_left / jump_timer.wait_time
+	# var jump_offset = jump_curve.sample(timer_ntime)
+	position = world.position + world_up * (world.radius + height_offset + wave_offset)
 
-	_rotation_mov(world_up, delta)
+	if not is_dashing():	
+		_rotation_mov(world_up, delta)
 	_horizontal_mov(delta)
+
+	if (Input.is_action_pressed("jump") and dash_cd.is_stopped()):
+		dash_dur.start()
 
 	# Rotate head to always orbit around planet
 	local_forward = world_up.cross(transform.basis.x)
@@ -88,10 +97,13 @@ func _rotation_mov(world_up: Vector3, delta: float) -> void:
 func _horizontal_mov(delta: float) -> void:
 	var forward = TUtils.forward(transform)
 	target_speed = forward * normal_speed
-	if Input.is_action_pressed("brake"):
-		target_speed = forward * brake_speed
-	elif Input.is_action_pressed("accelerate"):
-		target_speed = forward * acc_speed
+	if is_dashing():
+		target_speed = forward * dash_speed
+	else:
+		if Input.is_action_pressed("brake"):
+			target_speed = forward * brake_speed
+		elif Input.is_action_pressed("accelerate"):
+			target_speed = forward * acc_speed
 
 	curr_speed = lerp(target_speed, curr_speed, speed_lerp)
 	move_and_collide(curr_speed * delta)
