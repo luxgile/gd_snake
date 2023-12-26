@@ -10,7 +10,7 @@ func _ready() -> void:
 	pass
 
 func _area_entered(area: Area3D):
-	if area is Obstacle:
+	if area is Obstacle and not snake.is_dashing():
 		snake.kill_snake()
 	pass
 

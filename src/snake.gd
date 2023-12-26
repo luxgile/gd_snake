@@ -6,6 +6,7 @@ class_name Snake
 @export var world: World 
 @export var body_vfx: GPUParticles3D
 @export var position_cacher: PositionCacher
+@export var snake_head: Node3D
 
 @export_group("Init")
 @export var starting_parts: int
@@ -51,7 +52,8 @@ func _ready() -> void:
 
 func _on_dash_done():
 	dash_cd.start()
-	# TODO: Stop position cacher	
+	position_cacher.process_mode = Node.PROCESS_MODE_PAUSABLE
+	snake_head.visible = true
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -75,8 +77,10 @@ func _process(delta: float) -> void:
 		_rotation_mov(world_up, delta)
 	_horizontal_mov(delta)
 
-	if (Input.is_action_pressed("jump") and dash_cd.is_stopped()):
+	if (Input.is_action_pressed("jump") and dash_cd.is_stopped() and not is_dashing()):
 		dash_dur.start()
+		position_cacher.process_mode = Node.PROCESS_MODE_DISABLED
+		snake_head.visible = false
 
 	# Rotate head to always orbit around planet
 	local_forward = world_up.cross(transform.basis.x)

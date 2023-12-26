@@ -77,12 +77,13 @@ color = Color(0, 0.780962, 0.884148, 1)
 turbulence_enabled = true
 turbulence_noise_scale = 0.05
 
-[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "dash_cd", "dash_dur")]
+[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "dash_cd", "dash_dur")]
 script = ExtResource("1_2xa8c")
 s_snake_part = ExtResource("2_ja1wh")
 body_vfx = NodePath("vfx_turbo")
 position_cacher = NodePath("pos_cacher")
-starting_parts = 1
+snake_head = NodePath("snake root")
+starting_parts = 100
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
@@ -126,7 +127,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.105962, -0.647045)
 shape = SubResource("BoxShape3D_ve38m")
 
 [node name="dash_dur" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.2
 one_shot = true
 
 [node name="dash_cd" type="Timer" parent="."]
