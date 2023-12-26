@@ -1,10 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=22 format=3 uid="uid://deq23dblkhoqc"]
 
-[ext_resource type="Script" path="res://src/snake.gd" id="1_2xa8c"]
+[ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
 [ext_resource type="PackedScene" uid="uid://8yusoumx1suf" path="res://scenes/snake_part.tscn" id="2_ja1wh"]
 [ext_resource type="PackedScene" uid="uid://d1x3tc6gctevu" path="res://graphics/snake/snake_visuals.tscn" id="3_qnqq1"]
-[ext_resource type="Script" path="res://src/food_eater.gd" id="4_k57yk"]
+[ext_resource type="Script" path="res://src/snake/food_eater.gd" id="4_k57yk"]
+[ext_resource type="Script" path="res://src/snake/snake_dash_vfx.gd" id="4_pdr7o"]
+[ext_resource type="PackedScene" uid="uid://cnf0rn20pb3eb" path="res://scenes/vfxs/vfx_dash_sphere.tscn" id="5_jr8wf"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -78,7 +80,7 @@ turbulence_enabled = true
 turbulence_noise_scale = 0.05
 
 [node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "dash_cd", "dash_dur")]
-script = ExtResource("1_2xa8c")
+script = ExtResource("1_l2ibm")
 s_snake_part = ExtResource("2_ja1wh")
 body_vfx = NodePath("vfx_turbo")
 position_cacher = NodePath("pos_cacher")
@@ -110,6 +112,12 @@ skeleton = NodePath("../..")
 transform = Transform3D(1.71962e-16, 9.75285e-09, 0.09, 0.09, -9.75285e-09, 0, 3.93403e-09, 0.223119, -3.93403e-09, 0, 0, -0.54828)
 mesh = SubResource("CapsuleMesh_6b1v5")
 skeleton = NodePath("../..")
+
+[node name="vfx_dash" type="Node" parent="." node_paths=PackedStringArray("snake", "pos_cacher")]
+script = ExtResource("4_pdr7o")
+snake = NodePath("..")
+pos_cacher = NodePath("../pos_cacher")
+s_vfx = ExtResource("5_jr8wf")
 
 [node name="pos_cacher" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2_gh030")

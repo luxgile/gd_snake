@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://8yusoumx1suf"]
 
-[ext_resource type="Script" path="res://src/snake_part.gd" id="1_3ypn0"]
+[ext_resource type="Script" path="res://src/snake/snake_part.gd" id="1_n1ar4"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_6iom5"]
 [ext_resource type="Script" path="res://src/obstacle.gd" id="3_t2v0m"]
 
@@ -21,7 +21,7 @@ material = SubResource("StandardMaterial3D_v21m4")
 
 [node name="snake_part" type="Node3D" node_paths=PackedStringArray("pos_cacher")]
 transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, -1.07246e-15, 0.653129, -10.4663)
-script = ExtResource("1_3ypn0")
+script = ExtResource("1_n1ar4")
 delay_position = 4
 pos_cacher = NodePath("pos_cacher")
 

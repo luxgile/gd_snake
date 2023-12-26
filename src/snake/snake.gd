@@ -39,6 +39,9 @@ var curr_speed: Vector3
 var target_speed: Vector3
 var wave_timer: float
 
+signal dash_started
+signal dash_ended
+
 func is_dashing(): return not dash_dur.is_stopped()
 func dash_in_cd(): return not dash_cd.is_stopped()
 
@@ -54,6 +57,7 @@ func _on_dash_done():
 	dash_cd.start()
 	position_cacher.process_mode = Node.PROCESS_MODE_PAUSABLE
 	snake_head.visible = true
+	dash_ended.emit()
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -81,6 +85,7 @@ func _process(delta: float) -> void:
 		dash_dur.start()
 		position_cacher.process_mode = Node.PROCESS_MODE_DISABLED
 		snake_head.visible = false
+		dash_started.emit()
 
 	# Rotate head to always orbit around planet
 	local_forward = world_up.cross(transform.basis.x)
