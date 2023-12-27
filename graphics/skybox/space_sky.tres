@@ -1,9 +1,24 @@
-[gd_resource type="Sky" load_steps=3 format=3 uid="uid://da55ujc7yp23v"]
+[gd_resource type="Sky" load_steps=5 format=3 uid="uid://da55ujc7yp23v"]
 
-[ext_resource type="Texture2D" uid="uid://bxfe4ud3pnynq" path="res://graphics/skybox/maps/cubemap.png" id="1_7kvo4"]
+[sub_resource type="Gradient" id="Gradient_apj7k"]
+offsets = PackedFloat32Array(0.800752, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.7595, 0.93, 1)
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_csg04"]
-panorama = ExtResource("1_7kvo4")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rmh1s"]
+noise_type = 3
+frequency = 0.5
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xt2w5"]
+width = 2048
+height = 2048
+in_3d_space = true
+seamless_blend_skirt = 1.0
+color_ramp = SubResource("Gradient_apj7k")
+noise = SubResource("FastNoiseLite_rmh1s")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pfdu0"]
+panorama = SubResource("NoiseTexture2D_xt2w5")
 
 [resource]
-sky_material = SubResource("PanoramaSkyMaterial_csg04")
+sky_material = SubResource("PanoramaSkyMaterial_pfdu0")

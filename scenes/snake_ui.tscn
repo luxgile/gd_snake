@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bap83xqb5sdqs"]
+
+[sub_resource type="Theme" id="Theme_ue06v"]
+
+[node name="snake_ui" type="Control"]
+custom_minimum_size = Vector2(512, 512)
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.511963
+offset_bottom = 0.0799866
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.022
+anchor_right = 1.0
+anchor_bottom = 0.358
+offset_top = -0.25776
+offset_right = 0.488037
+offset_bottom = -0.0126343
+grow_horizontal = 2
+theme = SubResource("Theme_ue06v")

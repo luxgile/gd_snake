@@ -4,9 +4,13 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8oj5p"]
 albedo_color = Color(0, 0.780392, 0.882353, 1)
+metallic_specular = 1.0
 emission_enabled = true
-emission = Color(0, 0.780962, 0.884148, 1)
-emission_energy_multiplier = 1.9
+emission = Color(0, 0.780392, 0.882353, 1)
+emission_energy_multiplier = 2.0
+rim_tint = 0.35
+anisotropy = -1.0
+subsurf_scatter_strength = 1.0
 
 [node name="snake root" instance=ExtResource("1_obw3l")]
 

@@ -31,22 +31,35 @@ class_name Snake
 @export var dash_dur: Timer
 
 @export_subgroup("Drifting")
-@export var drift_speed: float
 @export var drift_rot: float
+@export var drift_rot_range: float
+@export var turbo_add_speed: float
+@export var target_to_current_turbo_ratio: float
+@export var energy_regen: float
+@export var energy_drain: float
+@export var min_energy_for_turbo: float
 
 var parts: Array[SnakePart] = []
 var curr_speed: Vector3
 var target_speed: Vector3
 var wave_timer: float
+var is_drifting: bool = false
+var is_drifting_right: bool = false
+
+var turbo_energy_accumulated: float
+var turbo_energy_gained: float
 
 signal dash_started
 signal dash_ended
+signal dash_ready
 
 func is_dashing(): return not dash_dur.is_stopped()
 func dash_in_cd(): return not dash_cd.is_stopped()
+func in_turbo(): return turbo_energy_gained > 0
 
 func _ready() -> void:
 	dash_dur.timeout.connect(_on_dash_done)
+	dash_cd.timeout.connect(func(): dash_ready.emit())
 	position_cacher.fill_empty(transform.basis.z * 0.2)
 
 	for i in starting_parts:
@@ -56,7 +69,6 @@ func _ready() -> void:
 func _on_dash_done():
 	dash_cd.start()
 	position_cacher.process_mode = Node.PROCESS_MODE_PAUSABLE
-	snake_head.visible = true
 	dash_ended.emit()
 	pass
 
@@ -67,24 +79,36 @@ func _process(delta: float) -> void:
 	var local_forward = -transform.basis.z.normalized()
 	var world_up = (position - world.position).normalized()
 
-
 	# vertical movement
 	var wave_offset = 0
 	if !is_dashing():
 		wave_timer += delta
 		wave_offset = sin(wave_timer * wave_frequency) * height_wave
-	# var timer_ntime = jump_timer.time_left / jump_timer.wait_time
-	# var jump_offset = jump_curve.sample(timer_ntime)
+
 	position = world.position + world_up * (world.radius + height_offset + wave_offset)
 
+	if is_drifting:
+		turbo_energy_accumulated += energy_regen * delta
+
+	if Input.is_action_just_released("drift"):
+		turbo_energy_gained = turbo_energy_accumulated
+		turbo_energy_accumulated = 0
+
+	if turbo_energy_gained > 0:
+		turbo_energy_gained -= energy_drain * delta
+
 	if not is_dashing():	
-		_rotation_mov(world_up, delta)
+		var rotation = _rotation_mov(world_up, delta)
+
 	_horizontal_mov(delta)
 
-	if (Input.is_action_pressed("jump") and dash_cd.is_stopped() and not is_dashing()):
+	if Input.is_action_just_released("drift"):
+		curr_speed = curr_speed.normalized() * target_speed.length() 
+
+	if (Input.is_action_pressed("dash") and dash_cd.is_stopped() and not is_dashing()):
+		is_drifting = false
 		dash_dur.start()
 		position_cacher.process_mode = Node.PROCESS_MODE_DISABLED
-		snake_head.visible = false
 		dash_started.emit()
 
 	# Rotate head to always orbit around planet
@@ -93,28 +117,48 @@ func _process(delta: float) -> void:
 	look_at(target, world_up)
 	pass
 
-func _rotation_mov(world_up: Vector3, delta: float) -> void:
+func _rotation_mov(world_up: Vector3, delta: float) -> float:
 	var delta_rotation = 0
 	if Input.is_action_pressed("rotate_left"):
 		delta_rotation += rot_speed
 	if Input.is_action_pressed("rotate_right"):
 		delta_rotation -= rot_speed
-	rotate(world_up, delta_rotation * delta)
-	pass
+	if abs(delta_rotation) > 0.1:
+		if Input.is_action_pressed("drift") and not is_drifting:
+			is_drifting = true
+			is_drifting_right = true if delta_rotation < 0 else false
 
+	if Input.is_action_just_released("drift"):
+		is_drifting = false
+
+	if is_drifting:
+		delta_rotation = -drift_rot if is_drifting_right else drift_rot
+		if Input.is_action_pressed("rotate_left"):
+			delta_rotation += drift_rot_range
+		if Input.is_action_pressed("rotate_right"):
+			delta_rotation -= drift_rot_range
+
+	rotate(world_up, delta_rotation * delta)
+	return delta_rotation
 
 func _horizontal_mov(delta: float) -> void:
 	var forward = TUtils.forward(transform)
-	target_speed = forward * normal_speed
+	var speed_magnitude = normal_speed	
 	if is_dashing():
-		target_speed = forward * dash_speed
+		speed_magnitude = dash_speed
 	else:
 		if Input.is_action_pressed("brake"):
-			target_speed = forward * brake_speed
+			speed_magnitude = brake_speed
 		elif Input.is_action_pressed("accelerate"):
-			target_speed = forward * acc_speed
+			speed_magnitude = acc_speed
 
-	curr_speed = lerp(target_speed, curr_speed, speed_lerp)
+		if in_turbo():
+			speed_magnitude += turbo_add_speed
+
+	target_speed = forward * speed_magnitude
+
+
+	curr_speed = lerp(target_speed, curr_speed, speed_lerp) 
 	move_and_collide(curr_speed * delta)
 	pass
 
@@ -137,7 +181,6 @@ func _update_parts_visuals():
 		var p = i as float / parts.size() as float
 		parts[i].scale = Vector3.ONE * part_size_per_part.sample(p)
 	pass
-
 
 func kill_snake():
 	print("TODO: Kill the snake")

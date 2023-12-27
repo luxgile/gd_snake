@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=27 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -7,8 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://dvuaagoa7ojjp" path="res://scenes/food.tscn" id="4_vk0ks"]
 [ext_resource type="Sky" uid="uid://da55ujc7yp23v" path="res://graphics/skybox/space_sky.tres" id="5_lt2a1"]
 [ext_resource type="PackedScene" uid="uid://cyn6ujg3e0ujf" path="res://graphics/asteroid/ico_sphere.tscn" id="7_3sttk"]
-[ext_resource type="PackedScene" uid="uid://crk1ahtrbwlbn" path="res://scenes/vfx_food_exp.tscn" id="8_ljaga"]
+[ext_resource type="Script" path="res://src/snake/audio/bpm_master.gd" id="9_d0lcr"]
+[ext_resource type="AudioStream" uid="uid://d3y8qps3chkmq" path="res://audio/drums 100bpm.wav" id="9_vojrl"]
+[ext_resource type="Script" path="res://src/snake/audio/bpm_song.gd" id="10_7emi6"]
 [ext_resource type="Material" uid="uid://bfl1wvjo08lmn" path="res://graphics/asteroid/asteroid.tres" id="12_lwanm"]
+[ext_resource type="Script" path="res://src/snake/audio/bpm_debug.gd" id="12_od5wo"]
+[ext_resource type="AudioStream" uid="uid://b3vgsx8trk8v4" path="res://audio/Carpenter Brut - Le Perv 120bpm.wav" id="12_odi1d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1yola"]
 transparency = 1
@@ -51,6 +55,12 @@ turbulence_noise_scale = 2.0
 lightmap_size_hint = Vector2i(7, 7)
 orientation = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imfhw"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eugce"]
+
 [sub_resource type="Environment" id="Environment_hmlkr"]
 background_mode = 2
 sky = ExtResource("5_lt2a1")
@@ -58,12 +68,18 @@ ambient_light_source = 3
 ambient_light_sky_contribution = 0.7
 ambient_light_energy = 6.56
 reflected_light_source = 2
+ssao_radius = 1.16
+ssao_intensity = 6.4
+ssao_detail = 1.48
+ssao_horizon = 1.0
+ssao_sharpness = 1.0
+ssao_light_affect = 1.0
+ssil_radius = 3.81
 sdfgi_use_occlusion = true
 sdfgi_min_cell_size = 9.76563e-05
 sdfgi_cascade0_distance = 0.00625
 sdfgi_max_distance = 0.1
 glow_enabled = true
-glow_strength = 0.85
 glow_blend_mode = 1
 volumetric_fog_density = 0.01
 adjustment_enabled = true
@@ -80,6 +96,11 @@ dof_blur_amount = 0.34
 lightmap_size_hint = Vector2i(17, 9)
 rings = 64
 
+[sub_resource type="Resource" id="Resource_enihm"]
+script = ExtResource("10_7emi6")
+song = ExtResource("12_odi1d")
+bpm = 120.0
+
 [node name="game" type="Node3D"]
 
 [node name="food_spawner" type="Node" parent="." node_paths=PackedStringArray("planet")]
@@ -90,14 +111,11 @@ max_food = 10
 h_offset = 0.5
 
 [node name="snake" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_a2gub")]
-transform = Transform3D(0.999979, -0.00144312, 0.0063773, 0.00637425, -0.00211577, -0.999978, 0.00145659, 0.999997, -0.00210652, 0.0214922, 0.0315097, -25.4186)
+transform = Transform3D(-0.999979, 0.00144321, -0.0063773, 0.00637425, -0.00211577, -0.999978, -0.00145668, -0.999997, 0.00210652, 0.0214922, 0.0315097, -26.666)
 world = NodePath("../world")
 height_offset = 0.2
 height_wave = 0.1
 wave_frequency = 8.0
-brake_speed = 5.0
-acc_speed = 15.0
-speed_lerp = 0.95
 
 [node name="vfx_running" type="GPUParticles3D" parent="snake"]
 transform = Transform3D(1, -1.16415e-10, -7.1168e-11, 0, 0.999999, -9.31323e-10, -9.93623e-11, 9.31323e-10, 1, -5.58794e-09, 0.522942, 1.30385e-08)
@@ -110,6 +128,14 @@ transform_align = 1
 process_material = SubResource("ParticleProcessMaterial_0s2rt")
 draw_pass_1 = SubResource("QuadMesh_qv4go")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="snake" node_paths=PackedStringArray("master")]
+transform = Transform3D(-0.999978, 0.00637423, -0.00145667, 0.00144322, -0.00211576, -0.999996, -0.0063773, -0.999977, 0.00210652, 0.00214404, 1.47187, -0.00310054)
+material_override = SubResource("StandardMaterial3D_imfhw")
+mesh = SubResource("SphereMesh_eugce")
+skeleton = NodePath("../../music_react")
+script = ExtResource("12_od5wo")
+master = NodePath("../../music_react")
+
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
 script = ExtResource("2_3g7ar")
@@ -119,10 +145,14 @@ position_smoothness = 0.7
 distance = 7.0
 look_offset = Vector3(0, -3, 3)
 
+[node name="listener" type="AudioListener3D" parent="."]
+current = true
+
 [node name="light & env" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="light & env"]
 transform = Transform3D(-0.866025, -0.167907, 0.470964, 0, 0.941929, 0.335813, -0.5, 0.290823, -0.815734, 0, 0, 0)
+visible = false
 light_color = Color(0.886275, 0, 0.407843, 1)
 shadow_enabled = true
 
@@ -143,4 +173,11 @@ material_override = ExtResource("12_lwanm")
 lod_bias = 0.001
 mesh = SubResource("SphereMesh_gwjjg")
 
-[node name="vfx_food_exp" parent="." instance=ExtResource("8_ljaga")]
+[node name="music_react" type="Node" parent="." node_paths=PackedStringArray("audio_player")]
+script = ExtResource("9_d0lcr")
+song = SubResource("Resource_enihm")
+audio_player = NodePath("audio_player")
+
+[node name="audio_player" type="AudioStreamPlayer" parent="music_react"]
+stream = ExtResource("9_vojrl")
+volume_db = -30.0
