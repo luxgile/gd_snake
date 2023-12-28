@@ -11,6 +11,10 @@ var timer: float
 var beat_count: int
 var prev_beat: int
 
+func _init() -> void:
+	hub.bpm_master = self
+	pass
+
 func _ready() -> void:
 	play(song)
 	pass

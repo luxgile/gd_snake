@@ -14,6 +14,10 @@ config/name="snek"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
+[autoload]
+
+hub="*res://src/hub.gd"
+
 [display]
 
 window/size/always_on_top=true

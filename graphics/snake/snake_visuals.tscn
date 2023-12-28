@@ -15,4 +15,5 @@ subsurf_scatter_strength = 1.0
 [node name="snake root" instance=ExtResource("1_obw3l")]
 
 [node name="Cube" parent="." index="0"]
+transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_8oj5p")

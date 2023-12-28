@@ -2,6 +2,8 @@ shader_type spatial;
 render_mode unshaded,wireframe;
 
 uniform vec4 albedo : source_color = vec4(0.0,0.0,0.0,1.0);
+uniform vec4 emissive_color : source_color = vec4(0.0,0.0,0.0,1.0);
+uniform float emissive = 0;
 uniform float outline_width : hint_range(0.0, 10.0, 0.1) = 3.0;
 uniform float noise_mag = 0;
 uniform float noise_freq = 0;
@@ -64,5 +66,5 @@ void vertex() {
 }
 
 void fragment() {
-	ALBEDO = albedo.rgb;
+	ALBEDO = albedo.rgb + emissive_color.rgb * emissive;
 }

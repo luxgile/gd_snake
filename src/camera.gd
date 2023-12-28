@@ -5,15 +5,22 @@ extends Camera3D
 @export_range(0, 1) var position_smoothness: float
 @export var distance: float
 @export var look_offset: Vector3
+@export var offset_speed_mult: float
+@export var fov_speed_div: float
 
 
 func _process(delta: float) -> void:
+	var target_dir = (target.position - position).normalized()
 	var local_offset = TUtils.local_dir(target.transform, target_offset) 
-	var target_pos = target.position + local_offset + target.transform.basis.y * distance
+	local_offset += local_offset * target.curr_speed.length() * offset_speed_mult
+	var target_pos = target.position + local_offset + target.transform.basis.y * (distance) 
 	position = lerp(target_pos, position, position_smoothness) 
 
 	var local_look_offset = TUtils.local_dir(target.transform, look_offset)
 	var target_look = target.position + local_look_offset
 	look_at(target_look, -target.transform.basis.z)
+
+
+	fov = 75 + target.curr_speed.length()  / fov_speed_div
 
 	pass

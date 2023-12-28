@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyn6ujg3e0ujf"]
+[gd_scene load_steps=12 format=3 uid="uid://cyn6ujg3e0ujf"]
 
 [ext_resource type="PackedScene" uid="uid://cfpovqwlf4ct6" path="res://graphics/asteroid/ico_sphere.glb" id="1_mlbuw"]
 [ext_resource type="Shader" path="res://graphics/asteroid/ico_sphere.gdshader" id="2_1mqyx"]
 [ext_resource type="Shader" path="res://graphics/asteroid/ico_sphere_base.gdshader" id="2_m288t"]
+[ext_resource type="Script" path="res://src/audio/bpm_planet.gd" id="4_ebque"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0q5uu"]
 render_priority = 0
@@ -50,10 +51,21 @@ shadow_mesh = SubResource("ArrayMesh_ortaj")
 render_priority = 0
 shader = ExtResource("2_1mqyx")
 shader_parameter/albedo = Color(0, 0.360784, 1, 1)
+shader_parameter/emissive_color = Color(0, 0.360784, 1, 1)
+shader_parameter/emissive = 5.0
 shader_parameter/outline_width = 1.5
 shader_parameter/noise_mag = 1.5
 shader_parameter/noise_freq = 5.0
 shader_parameter/noise_scale = 0.1
+
+[sub_resource type="Gradient" id="Gradient_bljm2"]
+colors = PackedColorArray(0.0500002, 0, 1, 1, 0, 0.360784, 1, 1)
+
+[sub_resource type="Curve" id="Curve_kh643"]
+min_value = 1.0
+max_value = 5.0
+_data = [Vector2(0, 2.21429), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="ico_sphere" instance=ExtResource("1_mlbuw")]
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
@@ -65,3 +77,10 @@ skeleton = NodePath("")
 
 [node name="Icosphere" parent="." index="1"]
 material_override = SubResource("ShaderMaterial_snabi")
+
+[node name="bpm_planet" type="Node" parent="." index="2" node_paths=PackedStringArray("planet")]
+script = ExtResource("4_ebque")
+planet = NodePath("../Icosphere")
+color_curve = SubResource("Gradient_bljm2")
+emissive_curve = SubResource("Curve_kh643")
+back_time = 0.5

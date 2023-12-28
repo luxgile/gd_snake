@@ -1,26 +1,77 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvuaagoa7ojjp"]
+[gd_scene load_steps=8 format=3 uid="uid://dvuaagoa7ojjp"]
 
 [ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_adby0"]
-albedo_color = Color(0.859056, 0.531408, 0.985458, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n3j5"]
 emission_enabled = true
-emission = Color(0.858824, 0.533333, 0.984314, 1)
-emission_energy_multiplier = 20.0
+emission = Color(0.482353, 0.921569, 0.14902, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_hov6d"]
-material = SubResource("StandardMaterial3D_adby0")
+[sub_resource type="BoxMesh" id="BoxMesh_2ekvj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6a305"]
-radius = 0.292764
+radius = 0.7
+
+[sub_resource type="Animation" id="Animation_j650x"]
+resource_name = "test"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(6.28319, 3.14159, 0), Vector3(12.5664, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y0ksh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iiufr"]
+_data = {
+"RESET": SubResource("Animation_y0ksh"),
+"test": SubResource("Animation_j650x")
+}
 
 [node name="food" type="StaticBody3D"]
+transform = Transform3D(-1, -1.52855e-14, -8.74228e-08, 0, 1, -1.74846e-07, 8.74228e-08, -1.74846e-07, -1, 0, 0, 0)
 script = ExtResource("1_5jbp2")
 food_value = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
-mesh = SubResource("SphereMesh_hov6d")
+transform = Transform3D(0.247487, -0.606218, 0.247487, 0.428661, 0.35, 0.428661, -0.494975, 4.47035e-08, 0.494975, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_8n3j5")
+mesh = SubResource("BoxMesh_2ekvj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.241237, -0.646529, -0.117493, 0.179365, -0.0556215, 0.67434, -0.632165, -0.2625, 0.146495, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_8n3j5")
+mesh = SubResource("BoxMesh_2ekvj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6a305")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+deterministic = true
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_iiufr")
+}
+
+[connection signal="ready" from="AnimationPlayer" to="AnimationPlayer" method="play" binds= ["test"]]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=55 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cnf0rn20pb3eb" path="res://scenes/vfxs/vfx_dash_sphere.tscn" id="5_jr8wf"]
 [ext_resource type="Script" path="res://src/snake/snake_drift.gd" id="8_bacst"]
 [ext_resource type="Script" path="res://utils/src/look_at_camera.gd" id="9_dp0x1"]
+[ext_resource type="Script" path="res://src/audio/bpm_snake.gd" id="10_vkaxp"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -262,9 +263,10 @@ energy_regen = 5.0
 energy_drain = 2.0
 
 [node name="snake root" parent="." instance=ExtResource("3_qnqq1")]
-transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, 0, -0.116479, -0.295435)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.116479, -0.295435)
 
 [node name="eyes" type="Node3D" parent="snake root"]
+transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="snake root/eyes"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.616703, 0.860479, 0.624753)
@@ -326,6 +328,13 @@ dash_indicator = NodePath("../snake root/eyes")
 pos_cacher = NodePath("../pos_cacher")
 s_vfx = ExtResource("5_jr8wf")
 vfxs = NodePath("../vfx_dash")
+
+[node name="bpm" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root")]
+script = ExtResource("10_vkaxp")
+snake = NodePath("..")
+snake_root = NodePath("../snake root")
+react_scale = 1.2
+react_time = 0.5
 
 [node name="pos_cacher" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2_gh030")
@@ -408,7 +417,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(-0.98926, 0.0898675, 0.115272, 0.0102661, 0.829423, -0.558527, -0.145802, -0.551345, -0.821438, 0, 0, 0)
+transform = Transform3D(0.541725, 0.353546, 0.762587, -0.00594967, 0.908831, -0.417121, -0.840534, 0.221428, 0.49444, 0, 0, 0)
 visible = false
 script = ExtResource("9_dp0x1")
 rot_smooth = 0.205
