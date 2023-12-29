@@ -1,4 +1,4 @@
-extends Node
+extends BpmNode
 class_name FoodGenerator
 
 @export var planet: World
@@ -8,15 +8,16 @@ class_name FoodGenerator
 
 var current_food: Array[Food] = []
 
-
-func _process(delta: float) -> void:
-
-	while current_food.size() <= max_food:
+func _on_beat(beat: int) -> void:
+	if current_food.size() <= max_food:
 		var spawn_point = _random_planet_point()
 		var instanced_food = s_food.instantiate()	
 		if instanced_food is Food:
 			var food: Food = instanced_food
 			food.position = spawn_point
+			var up = spawn_point.normalized()
+			var forward = up.cross(Vector3.FORWARD)
+			food.look_at_from_position(spawn_point, spawn_point + forward, spawn_point + up)
 			current_food.push_back(food)
 			food.food_eaten.connect(func(): current_food.erase(food))
 			add_child(food)

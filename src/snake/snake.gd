@@ -52,6 +52,7 @@ var turbo_energy_gained: float
 signal dash_started
 signal dash_ended
 signal dash_ready
+signal new_part_spawned(part: SnakePart)
 
 func is_dashing(): return not dash_dur.is_stopped()
 func dash_in_cd(): return not dash_cd.is_stopped()
@@ -103,7 +104,7 @@ func _process(delta: float) -> void:
 	_horizontal_mov(delta)
 
 	if Input.is_action_just_released("drift"):
-		curr_speed = curr_speed.normalized() * target_speed.length() 
+		curr_speed = curr_speed.normalized() * target_speed.length()
 
 	if (Input.is_action_pressed("dash") and dash_cd.is_stopped() and not is_dashing()):
 		is_drifting = false
@@ -172,6 +173,7 @@ func spawn_new_part():
 			snake_part.parent_pos_cacher = parts[-1].pos_cacher 
 		parts.push_back(snake_part)
 		get_parent().add_child.call_deferred(snake_part)
+		new_part_spawned.emit(snake_part)
 	_update_parts_visuals()
 	pass
 

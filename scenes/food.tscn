@@ -1,6 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://dvuaagoa7ojjp"]
+[gd_scene load_steps=30 format=3 uid="uid://dvuaagoa7ojjp"]
 
 [ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ontik"]
+emission_enabled = true
+emission = Color(0.482353, 0.921569, 0.14902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_04kd6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n3j5"]
 emission_enabled = true
@@ -11,67 +17,378 @@ emission = Color(0.482353, 0.921569, 0.14902, 1)
 [sub_resource type="SphereShape3D" id="SphereShape3D_6a305"]
 radius = 0.7
 
-[sub_resource type="Animation" id="Animation_j650x"]
-resource_name = "test"
-length = 2.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(6.28319, 3.14159, 0), Vector3(12.5664, 6.28319, 0)]
-}
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2blq"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+use_particle_trails = true
+
+[sub_resource type="Curve" id="Curve_makmh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_mxoq8"]
+curve = SubResource("Curve_makmh")
+
+[sub_resource type="Curve" id="Curve_mjsyw"]
+_data = [Vector2(0.247232, 0), 0.0, 0.0, 0, 0, Vector2(0.343173, 0.27997), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x4jqt"]
+curve = SubResource("Curve_mjsyw")
+
+[sub_resource type="Curve" id="Curve_5riwb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.760148, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3l5jl"]
+curve = SubResource("Curve_5riwb")
+
+[sub_resource type="Curve" id="Curve_ea6cn"]
+max_value = 5.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1.89302), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2p101"]
+curve = SubResource("Curve_ea6cn")
+
+[sub_resource type="Curve" id="Curve_3umrb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p44j1"]
+curve = SubResource("Curve_3umrb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7ypkh"]
+emission_shape = 2
+emission_sphere_radius = 0.01
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.5
+initial_velocity_max = 10.0
+orbit_velocity_max = 1.0
+radial_velocity_min = 5.0
+radial_velocity_max = 5.0
+radial_velocity_curve = SubResource("CurveTexture_x4jqt")
+gravity = Vector3(0, 0, 0)
+tangential_accel_curve = SubResource("CurveTexture_2p101")
+attractor_interaction_enabled = false
+scale_min = 0.01
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_3l5jl")
+color = Color(0.482353, 0.921569, 0.14902, 1)
+emission_curve = SubResource("CurveTexture_mxoq8")
+turbulence_enabled = true
+turbulence_noise_strength = 10.0
+turbulence_noise_scale = 2.0
+turbulence_noise_speed_random = 0.1
+turbulence_influence_over_life = SubResource("CurveTexture_p44j1")
+
+[sub_resource type="Curve" id="Curve_2pj8p"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.495049, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_v8fqx"]
+size = 0.5
+curve = SubResource("Curve_2pj8p")
 
 [sub_resource type="Animation" id="Animation_y0ksh"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
+tracks/0/path = NodePath("root:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Vector3(-1.49012e-08, 8.88178e-16, -2.98023e-08)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("root:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OmniLight3D:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeshInstance3D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 3, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MeshInstance3D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.51239, 0.51239, 0.51239)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("root:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("MeshInstance3D:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("GPUParticles3D:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_j650x"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.49012e-08, 8.88178e-16, -2.98023e-08), Vector3(6.28319, 3.14159, 0), Vector3(12.5664, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ipoce"]
+resource_name = "spawn"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.16, 0.24, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.1, 3, 0.1), Vector3(2, 0.2, 2), Vector3(0.5, 2, 0.5), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OmniLight3D:light_energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.16, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.1, 1.0, 0.1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 5, 0), Vector3(0, 5, 0), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeshInstance3D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 10, 0), Vector3(0.1, 10, 0.1), Vector3(0.2, 0.2, 0.2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("root:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MeshInstance3D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.03, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("GPUParticles3D:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.03),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iiufr"]
 _data = {
 "RESET": SubResource("Animation_y0ksh"),
-"test": SubResource("Animation_j650x")
+"idle": SubResource("Animation_j650x"),
+"spawn": SubResource("Animation_ipoce")
 }
 
-[node name="food" type="StaticBody3D"]
-transform = Transform3D(-1, -1.52855e-14, -8.74228e-08, 0, 1, -1.74846e-07, 8.74228e-08, -1.74846e-07, -1, 0, 0, 0)
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7wv64"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6od1c"]
+animation = &"spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ixo4d"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p2sd2"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_c7ofs"]
+states/Start/position = Vector2(194, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_7wv64")
+states/idle/position = Vector2(557, 100)
+states/spawn/node = SubResource("AnimationNodeAnimation_6od1c")
+states/spawn/position = Vector2(342, 100)
+transitions = ["Start", "spawn", SubResource("AnimationNodeStateMachineTransition_ixo4d"), "spawn", "idle", SubResource("AnimationNodeStateMachineTransition_p2sd2")]
+
+[node name="food" type="StaticBody3D" node_paths=PackedStringArray("vfx")]
 script = ExtResource("1_5jbp2")
+vfx = NodePath("GPUParticles3D")
 food_value = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.247487, -0.606218, 0.247487, 0.428661, 0.35, 0.428661, -0.494975, 4.47035e-08, 0.494975, 0, 0, 0)
+transform = Transform3D(0.51239, 0, 0, 0, 0.51239, 0, 0, 0, 0.51239, 0, 3, 0)
+material_override = SubResource("StandardMaterial3D_ontik")
+mesh = SubResource("BoxMesh_04kd6")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.1, 0, 0, 0, 10, 0, 0, 0, 0.1, 0, 5, 0)
+material_override = SubResource("StandardMaterial3D_ontik")
+mesh = SubResource("BoxMesh_04kd6")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="root" type="Node3D" parent="."]
+transform = Transform3D(1, 2.98023e-08, 8.88178e-16, -2.98023e-08, 1, 1.49012e-08, -4.44089e-16, -1.49012e-08, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="root"]
+transform = Transform3D(0.247487, -0.606218, 0.247487, 0.428661, 0.35, 0.428661, -0.494975, 7.45058e-08, 0.494975, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_8n3j5")
 mesh = SubResource("BoxMesh_2ekvj")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="root"]
 transform = Transform3D(0.241237, -0.646529, -0.117493, 0.179365, -0.0556215, 0.67434, -0.632165, -0.2625, 0.146495, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_8n3j5")
 mesh = SubResource("BoxMesh_2ekvj")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6a305")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 1.49012e-08, 1.49012e-08, -2.33205e-16, 1, -1.86264e-08, 3.14935e-15, -4.84288e-08, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_v2blq")
+emitting = false
+amount = 256
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+trail_enabled = true
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_7ypkh")
+draw_pass_1 = SubResource("RibbonTrailMesh_v8fqx")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_iiufr")
+}
+tree_root = SubResource("AnimationNodeStateMachine_c7ofs")
+anim_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationTree"]
 deterministic = true
 reset_on_save = false
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_iiufr")
 }
 
-[connection signal="ready" from="AnimationPlayer" to="AnimationPlayer" method="play" binds= ["test"]]
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.482353, 0.921569, 0.14902, 1)
+light_energy = 0.1
+light_size = 5.0

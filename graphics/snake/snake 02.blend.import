@@ -1,0 +1,56 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://b0kxd514bo82q"
+path="res://.godot/imported/snake 02.blend-16e77028c9c36ebd87f8c0a283cced37.scn"
+
+[deps]
+
+source_file="res://graphics/snake/snake 02.blend"
+dest_files=["res://.godot/imported/snake 02.blend-16e77028c9c36ebd87f8c0a283cced37.scn"]
+
+[params]
+
+nodes/root_type="Node3D"
+nodes/root_name="snake root 2"
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"nodes": {
+"PATH:Cube": {
+"import/skip_import": true
+}
+}
+}
+gltf/naming_version=0
+gltf/embedded_image_handling=1
+blender/nodes/visible=1
+blender/nodes/punctual_lights=false
+blender/nodes/cameras=false
+blender/nodes/custom_properties=false
+blender/nodes/modifiers=1
+blender/meshes/colors=true
+blender/meshes/uvs=true
+blender/meshes/normals=true
+blender/meshes/tangents=true
+blender/meshes/skins=2
+blender/meshes/export_bones_deforming_mesh_only=false
+blender/materials/unpack_enabled=true
+blender/materials/export_materials=1
+blender/animation/limit_playback=true
+blender/animation/always_sample=true
+blender/animation/group_tracks=true

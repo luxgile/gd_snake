@@ -56,8 +56,9 @@ orientation = 1
 [sub_resource type="Environment" id="Environment_hmlkr"]
 background_mode = 2
 sky = ExtResource("5_lt2a1")
-ambient_light_source = 2
-ambient_light_color = Color(0, 0.780962, 0.884148, 1)
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.5
 ambient_light_energy = 0.25
 reflected_light_source = 2
 ssao_radius = 1.16
@@ -72,8 +73,8 @@ sdfgi_min_cell_size = 9.76563e-05
 sdfgi_cascade0_distance = 0.00625
 sdfgi_max_distance = 0.1
 glow_enabled = true
+glow_normalized = true
 glow_strength = 0.5
-glow_blend_mode = 1
 volumetric_fog_density = 0.01
 adjustment_enabled = true
 adjustment_brightness = 1.5
@@ -102,7 +103,7 @@ h_offset = 0.5
 [node name="snake" parent="." node_paths=PackedStringArray("world") instance=ExtResource("1_a2gub")]
 transform = Transform3D(-0.999979, 0.00144321, -0.0063773, 0.00637425, -0.00211577, -0.999978, -0.00145668, -0.999997, 0.00210652, 0.0214922, 0.0315097, -26.666)
 world = NodePath("../world")
-starting_parts = 3
+starting_parts = 1
 height_offset = 0.2
 height_wave = 0.1
 wave_frequency = 8.0
@@ -120,11 +121,12 @@ draw_pass_1 = SubResource("QuadMesh_qv4go")
 
 [node name="camera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(-0.848988, 0.162392, -0.50284, 0, 0.951606, 0.307321, 0.528412, 0.260912, -0.807902, -10.452, 4.47554, -16.2382)
+current = true
 script = ExtResource("2_3g7ar")
 target = NodePath("../snake")
-target_offset = Vector3(0, 1, -4)
+target_offset = Vector3(0, 4, -2)
 position_smoothness = 0.85
-distance = 7.0
+distance = 1.0
 look_offset = Vector3(0, -3, 2.5)
 offset_speed_mult = 0.01
 fov_speed_div = 2.0

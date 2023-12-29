@@ -3,6 +3,8 @@ class_name FoodEater
 
 @export var snake: Snake
 @export var area: Area3D
+@export var sfx: AudioStreamPlayer
+@export var pitch_variation: float
 
 func _ready() -> void:
 	area.body_entered.connect(_body_entered)
@@ -20,6 +22,8 @@ func _body_entered(node: Node3D):
 		for i in food.food_value:
 			snake.spawn_new_part()
 		food.eat_food()
+		sfx.pitch_scale = 1.0 + RandomUtils.rand_real() * pitch_variation
+		sfx.play()
 	pass
 
  

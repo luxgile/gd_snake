@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://3a6sbjji58wa"
+path="res://.godot/imported/drift up.wav-5764b8a9db480892c95791a04e1b5d74.sample"
+
+[deps]
+
+source_file="res://audio/drift up.wav"
+dest_files=["res://.godot/imported/drift up.wav-5764b8a9db480892c95791a04e1b5d74.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

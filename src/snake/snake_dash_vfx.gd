@@ -1,4 +1,5 @@
 extends Node
+class_name SnakeDash
 
 @export var snake: Snake
 @export var snake_root: Node3D
@@ -7,8 +8,12 @@ extends Node
 @export var s_vfx: PackedScene
 @export var shrink_time: float = 0.5
 @export var vfxs: GPUParticles3D
+@export var sfx: AudioStreamPlayer
 
 var vfx_spawned: Array[Node3D] = []
+
+signal portal_spawned(portal: Node3D)
+signal portal_destroyed(portal: Node3D)
 
 func _ready() -> void:
 	snake.dash_started.connect(_spawn_portal)
@@ -16,11 +21,12 @@ func _ready() -> void:
 	snake.dash_ready.connect(func(): dash_indicator.visible = true)
 	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for vfx in vfx_spawned:
 		if (vfx.position - snake.parts[-1].global_position).length() < 1:
 			var tween =	create_tween()
 			tween.tween_property(vfx, "scale", Vector3.ZERO, shrink_time)
+			tween.tween_callback(func(): portal_destroyed.emit(vfx))
 			tween.tween_callback(vfx.queue_free)
 			vfx_spawned.erase(vfx)
 	pass
@@ -33,9 +39,11 @@ func _spawn_portal():
 		add_child.call_deferred(node)
 		node.position = snake.position
 		vfx_spawned.push_back(node)
+		portal_spawned.emit(vfx)
 
 	if snake.is_dashing():
 		snake_root.visible = false
+		sfx.play()
 	else:
 		snake_root.visible = true
 		dash_indicator.visible = false
