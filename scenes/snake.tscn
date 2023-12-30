@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://utils/src/look_at_camera.gd" id="9_dp0x1"]
 [ext_resource type="AudioStream" uid="uid://go6aek80hkva" path="res://audio/portal.wav" id="10_bc1v5"]
 [ext_resource type="Script" path="res://src/audio/bpm_snake.gd" id="10_vkaxp"]
-[ext_resource type="AudioStream" uid="uid://b7otyyo5ps3bs" path="res://audio/food 2.wav" id="14_81gsu"]
+[ext_resource type="AudioStream" uid="uid://dwlk672kbu4dy" path="res://audio/food.wav" id="14_7pdru"]
 [ext_resource type="PackedScene" uid="uid://bap83xqb5sdqs" path="res://scenes/snake_ui.tscn" id="16_2n2m8"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
@@ -60,6 +60,14 @@ material = SubResource("StandardMaterial3D_v21m4")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6b1v5"]
 
+[sub_resource type="Curve3D" id="Curve3D_5aslc"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 4),
+"tilts": PackedFloat32Array(0, 2.93592, 0)
+}
+point_count = 3
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r0hi"]
 transparency = 1
 blend_mode = 1
@@ -67,14 +75,6 @@ no_depth_test = true
 albedo_color = Color(0, 0.780962, 0.884148, 1)
 emission = Color(0, 0.780962, 0.884148, 1)
 emission_energy_multiplier = 0.5
-
-[sub_resource type="Curve3D" id="Curve3D_5aslc"]
-resource_local_to_scene = true
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 10),
-"tilts": PackedFloat32Array(0, 0, 0)
-}
-point_count = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ve38m"]
 size = Vector3(1.05762, 0.590309, 1.24892)
@@ -344,26 +344,26 @@ script = ExtResource("6_v6ykd")
 snake = NodePath("..")
 snake_dash = NodePath("../dash")
 tail_parent = NodePath("CSGPolygon3D")
-tail = NodePath("CSGPolygon3D/Path3D")
+tail = NodePath("Path3D")
 s_portal_sub = ExtResource("7_5vdxi")
+
+[node name="Path3D" type="Path3D" parent="tail"]
+curve = SubResource("Curve3D_5aslc")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="tail"]
 calculate_tangents = false
 polygon = PackedVector2Array(0.01, -0.01, -0.01, -0.01, -0.01, 0.01, 0.01, 0.01)
 mode = 2
-path_node = NodePath("Path3D")
+path_node = NodePath("../Path3D")
 path_interval_type = 0
 path_interval = 1.0
 path_simplify_angle = 0.0
 path_rotation = 2
 path_local = false
 path_continuous_u = true
-path_u_distance = 1.0
+path_u_distance = 0.77
 path_joined = false
 material = SubResource("StandardMaterial3D_7r0hi")
-
-[node name="Path3D" type="Path3D" parent="tail/CSGPolygon3D"]
-curve = SubResource("Curve3D_5aslc")
 
 [node name="dash" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root", "dash_indicator", "pos_cacher", "vfxs", "sfx")]
 script = ExtResource("4_pdr7o")
@@ -377,8 +377,9 @@ sfx = NodePath("AudioStreamPlayer")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="dash"]
 stream = ExtResource("10_bc1v5")
-volume_db = -25.0
+volume_db = -30.0
 pitch_scale = 0.89
+bus = &"SFXs"
 
 [node name="bpm" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root")]
 script = ExtResource("10_vkaxp")
@@ -406,8 +407,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.240205)
 shape = SubResource("BoxShape3D_ve38m")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="food_eater"]
-stream = ExtResource("14_81gsu")
+stream = ExtResource("14_7pdru")
 volume_db = -25.0
+pitch_scale = 0.8
+bus = &"SFXs"
 
 [node name="dash_dur" type="Timer" parent="."]
 wait_time = 0.2
@@ -475,7 +478,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(0.999913, 0.00962035, -0.00882956, -4.65661e-10, 0.676177, 0.736739, 0.013058, -0.736675, 0.676121, 0, 0, 0)
+transform = Transform3D(0.867913, 0.374182, -0.326667, -0.34597, 0.927288, 0.142967, 0.35641, -0.011066, 0.934265, 0, 0, 0)
 script = ExtResource("9_dp0x1")
 invert_forward = true
 rot_smooth = 0.1
