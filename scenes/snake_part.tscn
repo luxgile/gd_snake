@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://8yusoumx1suf"]
+[gd_scene load_steps=8 format=3 uid="uid://8yusoumx1suf"]
 
 [ext_resource type="Script" path="res://src/snake/snake_part.gd" id="1_n1ar4"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_6iom5"]
 [ext_resource type="Script" path="res://src/obstacle.gd" id="3_t2v0m"]
-[ext_resource type="Shader" path="res://graphics/asteroid/ico_sphere.gdshader" id="3_xspyi"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_akqvd"]
 radius = 0.245119
@@ -22,19 +21,8 @@ material = SubResource("StandardMaterial3D_v21m4")
 radial_segments = 8
 rings = 4
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jigep"]
-render_priority = 0
-shader = ExtResource("3_xspyi")
-shader_parameter/albedo = Color(0, 0, 1, 1)
-shader_parameter/emissive_color = Color(0, 0, 1, 1)
-shader_parameter/emissive = 5.0
-shader_parameter/outline_width = 0.0
-shader_parameter/noise_mag = 0.0
-shader_parameter/noise_freq = 0.0
-shader_parameter/noise_scale = 1.0
-
 [node name="snake_part" type="Node3D" node_paths=PackedStringArray("pos_cacher")]
-transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, -1.07246e-15, 0.653129, -10.4663)
+transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, 0, 0, 0)
 script = ExtResource("1_n1ar4")
 delay_position = 4
 pos_cacher = NodePath("pos_cacher")
@@ -53,16 +41,10 @@ transform = Transform3D(0.495, 3.55271e-15, -2.11758e-22, -3.55271e-15, 0.495, 7
 material_override = SubResource("StandardMaterial3D_qicqf")
 mesh = SubResource("SphereMesh_vwf07")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="graphics"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-visible = false
-material_override = SubResource("ShaderMaterial_jigep")
-mesh = SubResource("SphereMesh_vwf07")
-skeleton = NodePath("../..")
-
 [node name="pos_cacher" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2_6iom5")
 target = NodePath("..")
+frames_to_cache = 50
 
 [node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="."]
 strength = 8.0

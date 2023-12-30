@@ -1,0 +1,33 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://bpf70qe6pracn"
+path="res://.godot/imported/Robofan Free.otf-61e84b614e4eef26220963cac8b59e61.fontdata"
+
+[deps]
+
+source_file="res://graphics/fonts/Robofan Free.otf"
+dest_files=["res://.godot/imported/Robofan Free.otf-61e84b614e4eef26220963cac8b59e61.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[]
+language_support={}
+script_support={}
+opentype_features={}

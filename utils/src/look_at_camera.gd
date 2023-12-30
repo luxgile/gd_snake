@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 	if _camera != null:
 		var cam_up = TUtils.up(_camera.transform)
 		var local_forward = TUtils.forward(transform)
-		var forward = (_camera.position - position).normalized()
+		var forward = (_camera.global_position - global_position).normalized()
 		if invert_forward:
 			forward *= -1
 		forward = lerp(forward, local_forward, rot_smooth)

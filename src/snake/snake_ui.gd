@@ -1,0 +1,19 @@
+extends Node
+
+@export var text_combo: Label
+@export var text_parts: Label
+@export var bar_combo: ProgressBar
+
+func _ready() -> void:
+	text_combo.text = "x0"
+	text_parts.text = "1"
+
+	var snake = hub.snake
+	snake.new_part_spawned.connect(func(part): text_parts.text = str(snake.parts.size()))
+	snake.combo_updated.connect(func(combo): text_combo.text = "x" + str(snake.combo_count))
+	pass
+
+func _process(delta: float) -> void:
+	bar_combo.max_value = hub.snake.get_combo_threshold()
+	bar_combo.value = hub.snake.combo_energy
+	pass

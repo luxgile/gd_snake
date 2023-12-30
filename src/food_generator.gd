@@ -19,7 +19,7 @@ func _on_beat(beat: int) -> void:
 			var forward = up.cross(Vector3.FORWARD)
 			food.look_at_from_position(spawn_point, spawn_point + forward, spawn_point + up)
 			current_food.push_back(food)
-			food.food_eaten.connect(func(): current_food.erase(food))
+			food.food_eaten.connect(func(): if current_food: current_food.erase(food))
 			add_child(food)
 	pass
 

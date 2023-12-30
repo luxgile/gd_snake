@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=60 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://go6aek80hkva" path="res://audio/portal.wav" id="10_bc1v5"]
 [ext_resource type="Script" path="res://src/audio/bpm_snake.gd" id="10_vkaxp"]
 [ext_resource type="AudioStream" uid="uid://b7otyyo5ps3bs" path="res://audio/food 2.wav" id="14_81gsu"]
+[ext_resource type="PackedScene" uid="uid://bap83xqb5sdqs" path="res://scenes/snake_ui.tscn" id="16_2n2m8"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -242,34 +243,23 @@ color = Color(0, 0.780962, 0.884148, 1)
 turbulence_enabled = true
 turbulence_noise_scale = 0.05
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_otsqd"]
-emission_enabled = true
-emission = Color(0, 0.780962, 0.884148, 1)
-
-[sub_resource type="TextMesh" id="TextMesh_eoxvp"]
-material = SubResource("StandardMaterial3D_otsqd")
-text = "3"
-font_size = 52
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82wes"]
-emission_enabled = true
-emission = Color(0, 0.780962, 0.884148, 1)
-
-[sub_resource type="TorusMesh" id="TorusMesh_2fjej"]
-inner_radius = 0.7
-outer_radius = 0.8
+[sub_resource type="ViewportTexture" id="ViewportTexture_har11"]
+viewport_path = NodePath("root_at_camera/snake_ui_viewport")
 
 [node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "dash_cd", "dash_dur")]
 script = ExtResource("1_l2ibm")
 s_snake_part = ExtResource("2_ja1wh")
-body_vfx = NodePath("vfx_turbo")
+body_vfx = NodePath("vfx_idle")
 position_cacher = NodePath("pos_cacher")
-snake_head = NodePath("snake root")
+snake_head = NodePath("snake root 3")
 starting_parts = 3
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
+height_wave = null
+wave_frequency = null
 brake_speed = 5.0
+normal_speed = null
 acc_speed = 15.0
 speed_lerp = 0.95
 rot_speed = 2.0
@@ -282,6 +272,11 @@ turbo_add_speed = 10.0
 target_to_current_turbo_ratio = 1.0
 energy_regen = 5.0
 energy_drain = 2.0
+min_energy_for_turbo = null
+combo_threshold_start = 5.0
+combo_threshold_add = 2.0
+combo_added = 1.0
+combo_drain = 0.25
 
 [node name="snake root" parent="." instance=ExtResource("3_qnqq1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.116479, -0.295435)
@@ -395,6 +390,7 @@ react_time = 0.5
 [node name="pos_cacher" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("2_gh030")
 target = NodePath("..")
+frames_to_cache = 50
 
 [node name="food_eater" type="Node3D" parent="." node_paths=PackedStringArray("snake", "area", "sfx")]
 script = ExtResource("4_k57yk")
@@ -479,16 +475,17 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(-0.117186, 0.990187, 0.076137, 0.147483, 0.0931666, -0.984667, -0.982097, -0.10416, -0.156953, 0, 0, 0)
-visible = false
+transform = Transform3D(0.999913, 0.00962035, -0.00882956, -4.65661e-10, 0.676177, 0.736739, 0.013058, -0.736675, 0.676121, 0, 0, 0)
 script = ExtResource("9_dp0x1")
-rot_smooth = 0.205
+invert_forward = true
+rot_smooth = 0.1
 
-[node name="score" type="MeshInstance3D" parent="root_at_camera"]
-transform = Transform3D(-1, 1.00909e-06, -1.47279e-05, 1.00862e-06, 1, 7.10189e-05, 1.46241e-05, 7.08699e-05, -1, 0.635001, 0.889999, 5.37932e-05)
-mesh = SubResource("TextMesh_eoxvp")
+[node name="Sprite3D" type="Sprite3D" parent="root_at_camera"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+texture = SubResource("ViewportTexture_har11")
 
-[node name="circle" type="MeshInstance3D" parent="root_at_camera"]
-transform = Transform3D(1, -7.45058e-09, 0, 0, -8.9407e-08, 1, 1.49012e-08, -1, 0, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_82wes")
-mesh = SubResource("TorusMesh_2fjej")
+[node name="snake_ui_viewport" type="SubViewport" parent="root_at_camera"]
+transparent_bg = true
+size_2d_override = Vector2i(512, 512)
+
+[node name="snake_ui" parent="root_at_camera/snake_ui_viewport" instance=ExtResource("16_2n2m8")]

@@ -1,26 +1,100 @@
-[gd_scene load_steps=2 format=3 uid="uid://bap83xqb5sdqs"]
+[gd_scene load_steps=7 format=3 uid="uid://bap83xqb5sdqs"]
 
-[sub_resource type="Theme" id="Theme_ue06v"]
+[ext_resource type="FontFile" uid="uid://bpf70qe6pracn" path="res://graphics/fonts/Robofan Free.otf" id="1_t7nhh"]
+[ext_resource type="Script" path="res://src/snake/snake_ui.gd" id="2_o4naw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jjjhd"]
+font = ExtResource("1_t7nhh")
+font_size = 72
+font_color = Color(0, 0.360784, 1, 1)
+outline_size = 4
+outline_color = Color(0, 0.780962, 0.884148, 1)
+shadow_size = 41
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uldnu"]
+bg_color = Color(0, 0.360784, 1, 0.105882)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.780962, 0.884148, 1)
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6csl"]
+bg_color = Color(0, 0.780962, 0.884148, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jfj22"]
 
 [node name="snake_ui" type="Control"]
-custom_minimum_size = Vector2(512, 512)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 0.511963
-offset_bottom = 0.0799866
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.022
-anchor_right = 1.0
-anchor_bottom = 0.358
-offset_top = -0.25776
-offset_right = 0.488037
-offset_bottom = -0.0126343
+anchor_left = 0.100694
+anchor_right = 0.899306
+anchor_bottom = 0.231481
 grow_horizontal = 2
-theme = SubResource("Theme_ue06v")
+grow_vertical = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="combo" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "374"
+label_settings = SubResource("LabelSettings_jjjhd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/combo"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23913
+anchor_top = 0.746667
+anchor_right = 1.23913
+anchor_bottom = 0.813333
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_uldnu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o6csl")
+value = 14.54
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 20.0
+theme_override_styles/separator = SubResource("StyleBoxFlat_jfj22")
+
+[node name="parts" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "374"
+label_settings = SubResource("LabelSettings_jjjhd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="snake_ui_system" type="Node" parent="." node_paths=PackedStringArray("text_combo", "text_parts", "bar_combo")]
+script = ExtResource("2_o4naw")
+text_combo = NodePath("../HBoxContainer/combo")
+text_parts = NodePath("../HBoxContainer/parts")
+bar_combo = NodePath("../HBoxContainer/combo/ProgressBar")

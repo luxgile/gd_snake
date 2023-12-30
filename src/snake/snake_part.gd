@@ -7,10 +7,18 @@ class_name SnakePart
 var parent_pos_cacher: PositionCacher
 
 
-func _ready() -> void:
-	pos_cacher.fill_empty(transform.basis.z * 0.2)
+func init_pos_cacher():
+	pos_cacher.fill_empty(position, transform.basis.z * 0.2)
+	pass
+
+func init_pos_cacher_with_prev():
+	pos_cacher.copy_from_other(parent_pos_cacher)
 	pass
 
 func _process(delta: float) -> void:
+	update_position()
+	pass
+
+func update_position() -> void:
 	position = parent_pos_cacher.get_position_delayed(delay_position)
 	pass

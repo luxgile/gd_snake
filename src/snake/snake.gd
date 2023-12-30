@@ -39,6 +39,15 @@ class_name Snake
 @export var energy_drain: float
 @export var min_energy_for_turbo: float
 
+@export_subgroup("Combo")
+@export var combo_threshold_start: float
+@export var combo_threshold_add: float
+@export var combo_added: float
+@export var combo_drain: float
+var combo_energy: float
+var combo_count: int
+signal combo_updated(combo: int)
+
 var parts: Array[SnakePart] = []
 var curr_speed: Vector3
 var target_speed: Vector3
@@ -54,14 +63,25 @@ signal dash_ended
 signal dash_ready
 signal new_part_spawned(part: SnakePart)
 
+func get_combo_threshold(): return combo_threshold_start + combo_count * combo_threshold_add
 func is_dashing(): return not dash_dur.is_stopped()
 func dash_in_cd(): return not dash_cd.is_stopped()
 func in_turbo(): return turbo_energy_gained > 0
 
+func _init() -> void:
+	hub.snake = self
+	pass
+
+func _exit_tree() -> void:
+	hub.snake = null
+	pass
+
 func _ready() -> void:
+	_process(0.16) #Hack to make sure the snake is positioned properly before caching positions
 	dash_dur.timeout.connect(_on_dash_done)
 	dash_cd.timeout.connect(func(): dash_ready.emit())
-	position_cacher.fill_empty(transform.basis.z * 0.2)
+	position_cacher.fill_empty(position - TUtils.forward(transform), Vector3.ZERO)
+	clear_combo()
 
 	for i in starting_parts:
 		spawn_new_part()
@@ -76,6 +96,13 @@ func _on_dash_done():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
+
+	# Combo drain
+	combo_energy -= combo_drain * delta
+	if combo_energy <= 0:
+		combo_energy = 0
+		if combo_count > 0:
+			remove_combo()
 
 	var local_forward = -transform.basis.z.normalized()
 	var world_up = (position - world.position).normalized()
@@ -99,7 +126,7 @@ func _process(delta: float) -> void:
 		turbo_energy_gained -= energy_drain * delta
 
 	if not is_dashing():	
-		var rotation = _rotation_mov(world_up, delta)
+		_rotation_mov(world_up, delta)
 
 	_horizontal_mov(delta)
 
@@ -163,16 +190,41 @@ func _horizontal_mov(delta: float) -> void:
 	move_and_collide(curr_speed * delta)
 	pass
 
+func clear_combo():
+	combo_energy = 0
+	combo_count = 0
+	combo_updated.emit(combo_count)
+	pass
+
+func remove_combo():
+	combo_count -= 1
+	combo_energy = get_combo_threshold() - 0.01
+	combo_updated.emit(combo_count)
+	pass
+
+func add_combo():
+	combo_energy += combo_added
+	if combo_energy > get_combo_threshold():
+		combo_energy -= get_combo_threshold()
+		combo_count += 1
+		combo_updated.emit(combo_count)
+	pass
+
 func spawn_new_part():
 	var new_part = s_snake_part.instantiate()
 	if new_part is SnakePart:
 		var snake_part: SnakePart = new_part
+		snake_part.top_level = true
 		if parts.size() == 0:
-			snake_part.parent_pos_cacher = position_cacher 
+			snake_part.parent_pos_cacher = position_cacher
+			snake_part.position = position
 		else:
-			snake_part.parent_pos_cacher = parts[-1].pos_cacher 
+			snake_part.parent_pos_cacher = parts[-1].pos_cacher
+			snake_part.position = parts[-1].position
+		snake_part.init_pos_cacher_with_prev()
+		snake_part.update_position()
 		parts.push_back(snake_part)
-		get_parent().add_child.call_deferred(snake_part)
+		add_child.call_deferred(snake_part)
 		new_part_spawned.emit(snake_part)
 	_update_parts_visuals()
 	pass

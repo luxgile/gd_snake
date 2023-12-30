@@ -339,7 +339,6 @@ transitions = ["Start", "spawn", SubResource("AnimationNodeStateMachineTransitio
 [node name="food" type="StaticBody3D" node_paths=PackedStringArray("vfx")]
 script = ExtResource("1_5jbp2")
 vfx = NodePath("GPUParticles3D")
-food_value = 5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.51239, 0, 0, 0, 0.51239, 0, 0, 0, 0.51239, 0, 3, 0)

@@ -10,7 +10,7 @@ var is_last_portal: bool
 var dash_start_pos: Vector3
 
 func _ready() -> void:
-	snake_dash.portal_spawned.connect(func(vfx): _on_portal_spawned(vfx))
+	# snake_dash.portal_spawned.connect(func(vfx): _on_portal_spawned(vfx))
 	pass
 
 func _process(_delta: float) -> void:
