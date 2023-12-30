@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
 [ext_resource type="PackedScene" uid="uid://8yusoumx1suf" path="res://scenes/snake_part.tscn" id="2_ja1wh"]
 [ext_resource type="PackedScene" uid="uid://d1x3tc6gctevu" path="res://graphics/snake/snake_visuals.tscn" id="3_qnqq1"]
-[ext_resource type="PackedScene" uid="uid://dkf0kqicw3bdt" path="res://graphics/snake/snake_visuals_2.tscn" id="4_a2dyg"]
 [ext_resource type="Script" path="res://src/snake/food_eater.gd" id="4_k57yk"]
+[ext_resource type="PackedScene" uid="uid://bycpu5j0kbg5q" path="res://graphics/snake/snake_visuals_3.tscn" id="4_n4vtc"]
 [ext_resource type="Script" path="res://src/snake/snake_dash_vfx.gd" id="4_pdr7o"]
 [ext_resource type="PackedScene" uid="uid://cnf0rn20pb3eb" path="res://scenes/vfxs/vfx_dash_sphere.tscn" id="5_jr8wf"]
 [ext_resource type="Script" path="res://src/snake/snake_tail.gd" id="6_v6ykd"]
@@ -302,8 +302,7 @@ material_override = SubResource("StandardMaterial3D_lybjq")
 mesh = SubResource("SphereMesh_0m4kt")
 skeleton = NodePath("../..")
 
-[node name="snake root 2" parent="." instance=ExtResource("4_a2dyg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.31592)
+[node name="snake root 3" parent="." instance=ExtResource("4_n4vtc")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_smroy")
@@ -339,7 +338,7 @@ skeleton = NodePath("../..")
 [node name="drift" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root", "drift_vfx", "turbo_vfx")]
 script = ExtResource("8_bacst")
 snake = NodePath("..")
-snake_root = NodePath("../snake root 2")
+snake_root = NodePath("../snake root 3")
 drift_model_rot = 45.0
 drift_smoothness = 0.9
 drift_vfx = NodePath("../vfx_drift")
@@ -374,7 +373,7 @@ curve = SubResource("Curve3D_5aslc")
 [node name="dash" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root", "dash_indicator", "pos_cacher", "vfxs", "sfx")]
 script = ExtResource("4_pdr7o")
 snake = NodePath("..")
-snake_root = NodePath("../snake root 2")
+snake_root = NodePath("../snake root 3")
 dash_indicator = NodePath("../snake root/eyes")
 pos_cacher = NodePath("../pos_cacher")
 s_vfx = ExtResource("5_jr8wf")
@@ -389,7 +388,7 @@ pitch_scale = 0.89
 [node name="bpm" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root")]
 script = ExtResource("10_vkaxp")
 snake = NodePath("..")
-snake_root = NodePath("../snake root 2")
+snake_root = NodePath("../snake root 3")
 react_scale = 1.2
 react_time = 0.5
 
@@ -480,7 +479,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(-0.12846, 0.990634, -0.0462733, 0.846321, 0.0851851, -0.525817, -0.51695, -0.106709, -0.849338, 0, 0, 0)
+transform = Transform3D(-0.117186, 0.990187, 0.076137, 0.147483, 0.0931666, -0.984667, -0.982097, -0.10416, -0.156953, 0, 0, 0)
 visible = false
 script = ExtResource("9_dp0x1")
 rot_smooth = 0.205

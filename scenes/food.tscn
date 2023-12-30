@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dvuaagoa7ojjp"]
+[gd_scene load_steps=32 format=3 uid="uid://dvuaagoa7ojjp"]
 
 [ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
 
@@ -13,6 +13,17 @@ emission_enabled = true
 emission = Color(0.482353, 0.921569, 0.14902, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2ekvj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kmg5h"]
+transparency = 1
+no_depth_test = true
+emission_enabled = true
+emission = Color(0.482353, 0.921569, 0.14902, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 30.0
+distance_fade_max_distance = 100.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_xxeqx"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6a305"]
 radius = 0.7
@@ -343,7 +354,7 @@ mesh = SubResource("BoxMesh_04kd6")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="root" type="Node3D" parent="."]
-transform = Transform3D(1, 2.98023e-08, 8.88178e-16, -2.98023e-08, 1, 1.49012e-08, -4.44089e-16, -1.49012e-08, 1, 0, 0, 0)
+transform = Transform3D(1, 2.98023e-08, 8.88178e-16, -2.98023e-08, 1, 1.49012e-08, -4.44088e-16, -1.49012e-08, 1, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="root"]
 transform = Transform3D(0.247487, -0.606218, 0.247487, 0.428661, 0.35, 0.428661, -0.494975, 7.45058e-08, 0.494975, 0, 0, 0)
@@ -356,6 +367,11 @@ transform = Transform3D(0.241237, -0.646529, -0.117493, 0.179365, -0.0556215, 0.
 material_override = SubResource("StandardMaterial3D_8n3j5")
 mesh = SubResource("BoxMesh_2ekvj")
 skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_kmg5h")
+mesh = SubResource("SphereMesh_xxeqx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6a305")
