@@ -7,11 +7,12 @@ extends BpmNode
 
 var tween: Tween
 
-func _on_beat(beat: int) -> void: 
+
+func _on_beat(beat: int) -> void:
 	if tween:
 		tween.kill()
 
 	snake_root.scale = Vector3.ONE * react_scale
-	tween =	create_tween()
+	tween = create_tween()
 	tween.tween_property(snake_root, "scale", Vector3.ONE, react_time)
 	pass

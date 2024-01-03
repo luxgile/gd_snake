@@ -9,11 +9,24 @@ extends Node
 var is_last_portal: bool
 var dash_start_pos: Vector3
 
+
 func _ready() -> void:
 	# snake_dash.portal_spawned.connect(func(vfx): _on_portal_spawned(vfx))
+	tail_parent.visible = false
+	hub.game_state.state_changed.connect(_game_state_changed)
+	pass
+
+func _game_state_changed(state):
+	if state == GameState.State.Playing:
+		tail_parent.visible = true
+	else:
+		tail_parent.visible = false
 	pass
 
 func _process(_delta: float) -> void:
+	if hub.game_state.current_state != GameState.State.Playing:
+		return
+
 	tail.curve.point_count = snake.parts.size() + 1
 	var index = 1
 	tail.curve.set_point_position(0, snake.global_position)
@@ -21,6 +34,7 @@ func _process(_delta: float) -> void:
 		tail.curve.set_point_position(index, part.global_position)
 		index += 1
 	pass
+
 
 func _on_portal_spawned(portal: Node3D):
 	if not is_last_portal:
@@ -31,7 +45,7 @@ func _on_portal_spawned(portal: Node3D):
 		var node = s_portal_sub.instantiate()
 		node.top_level = true
 		tail_parent.add_child(node)
-		var path_node = node.get_child(0) #Terrible hack to get the path. I'm so sorry
+		var path_node = node.get_child(0)  #Terrible hack to get the path. I'm so sorry
 		if path_node is Path3D:
 			var path: Path3D = path_node
 			path.curve.set_point_position(0, dash_start_pos)

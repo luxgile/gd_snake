@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=66 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -77,11 +77,12 @@ emission = Color(0, 0.780962, 0.884148, 1)
 emission_energy_multiplier = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ve38m"]
-size = Vector3(1.05762, 0.590309, 1.24892)
+size = Vector3(1.08813, 0.590309, 1.03816)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slq3a"]
 vertex_color_use_as_albedo = true
 emission_enabled = true
+use_particle_trails = true
 distance_fade_max_distance = 20.0
 
 [sub_resource type="Gradient" id="Gradient_72mfa"]
@@ -100,8 +101,8 @@ point_count = 1
 curve = SubResource("Curve_2fhaa")
 
 [sub_resource type="Curve" id="Curve_7blry"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_pb3vu"]
 curve = SubResource("Curve_7blry")
@@ -144,6 +145,33 @@ turbulence_influence_over_life = SubResource("CurveTexture_7t38f")
 [sub_resource type="SphereMesh" id="SphereMesh_cyst8"]
 radial_segments = 8
 rings = 8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4nj5i"]
+emission_shape = 2
+emission_sphere_radius = 0.01
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, -1)
+spread = 20.0
+initial_velocity_max = 10.0
+velocity_limit_curve = SubResource("CurveTexture_aof48")
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 0.01
+scale_max = 0.05
+scale_curve = SubResource("CurveTexture_pb3vu")
+color_initial_ramp = SubResource("GradientTexture1D_5t77h")
+emission_curve = SubResource("CurveTexture_iynku")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.05
+turbulence_influence_over_life = SubResource("CurveTexture_7t38f")
+
+[sub_resource type="Curve" id="Curve_pxakw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_yyyie"]
+curve = SubResource("Curve_pxakw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k5sf2"]
 shading_mode = 0
@@ -246,20 +274,80 @@ turbulence_noise_scale = 0.05
 [sub_resource type="ViewportTexture" id="ViewportTexture_har11"]
 viewport_path = NodePath("root_at_camera/snake_ui_viewport")
 
-[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "dash_cd", "dash_dur")]
+[sub_resource type="Animation" id="Animation_bxtu7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("snake root 3:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("snake root 3:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_is66v"]
+resource_name = "spawn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("snake root 3:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 4), Vector3(1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("snake root 3:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 6.28319), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cr1h4"]
+_data = {
+"RESET": SubResource("Animation_bxtu7"),
+"spawn": SubResource("Animation_is66v")
+}
+
+[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "animation", "vfx_death", "dash_cd", "dash_dur")]
 script = ExtResource("1_l2ibm")
 s_snake_part = ExtResource("2_ja1wh")
 body_vfx = NodePath("vfx_idle")
 position_cacher = NodePath("pos_cacher")
 snake_head = NodePath("snake root 3")
-starting_parts = 3
+animation = NodePath("animation")
+vfx_death = NodePath("vfx_death")
+starting_parts = 100
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
-height_wave = null
-wave_frequency = null
 brake_speed = 5.0
-normal_speed = null
 acc_speed = 15.0
 speed_lerp = 0.95
 rot_speed = 2.0
@@ -272,7 +360,6 @@ turbo_add_speed = 10.0
 target_to_current_turbo_ratio = 1.0
 energy_regen = 5.0
 energy_drain = 2.0
-min_energy_for_turbo = null
 combo_threshold_start = 5.0
 combo_threshold_add = 2.0
 combo_added = 1.0
@@ -298,8 +385,10 @@ mesh = SubResource("SphereMesh_0m4kt")
 skeleton = NodePath("../..")
 
 [node name="snake root 3" parent="." instance=ExtResource("4_n4vtc")]
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.439715)
 shape = SubResource("SphereShape3D_smroy")
 
 [node name="shield?" type="Node3D" parent="."]
@@ -403,7 +492,7 @@ pitch_variation = 0.1
 [node name="area" type="Area3D" parent="food_eater"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="food_eater/area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.240205)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179815, 0, -0.811563)
 shape = SubResource("BoxShape3D_ve38m")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="food_eater"]
@@ -435,6 +524,24 @@ trail_lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_ei2l1")
 draw_passes = 2
 draw_pass_1 = SubResource("SphereMesh_cyst8")
+draw_pass_2 = null
+
+[node name="vfx_death" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0791624, 0.324205)
+material_override = SubResource("StandardMaterial3D_slq3a")
+cast_shadow = 0
+emitting = false
+amount = 256
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-4.75849, -5.01039, -8.36539, 10.4443, 10.013, 9.6939)
+transform_align = 2
+trail_enabled = true
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_4nj5i")
+draw_passes = 2
+draw_pass_1 = SubResource("RibbonTrailMesh_yyyie")
 draw_pass_2 = null
 
 [node name="vfx_drift" type="GPUParticles3D" parent="."]
@@ -478,7 +585,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(0.867913, 0.374182, -0.326667, -0.34597, 0.927288, 0.142967, 0.35641, -0.011066, 0.934265, 0, 0, 0)
+transform = Transform3D(-0.422564, 0.325689, -0.845793, 0.172348, 0.945049, 0.277805, 0.889793, -0.0283804, -0.455477, 0, 0, 0)
 script = ExtResource("9_dp0x1")
 invert_forward = true
 rot_smooth = 0.1
@@ -492,3 +599,8 @@ transparent_bg = true
 size_2d_override = Vector2i(512, 512)
 
 [node name="snake_ui" parent="root_at_camera/snake_ui_viewport" instance=ExtResource("16_2n2m8")]
+
+[node name="animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cr1h4")
+}

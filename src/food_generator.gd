@@ -9,6 +9,9 @@ class_name FoodGenerator
 var current_food: Array[Food] = []
 
 func _on_beat(beat: int) -> void:
+	if hub.game_state.current_state != GameState.State.Playing:
+		return
+
 	if current_food.size() <= max_food:
 		var spawn_point = _random_planet_point()
 		var instanced_food = s_food.instantiate()	

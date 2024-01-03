@@ -3,10 +3,11 @@ class_name Snake
 
 @export_group("References")
 @export var s_snake_part: PackedScene
-@export var world: World 
 @export var body_vfx: GPUParticles3D
 @export var position_cacher: PositionCacher
 @export var snake_head: Node3D
+@export var animation: AnimationPlayer
+@export var vfx_death: GPUParticles3D
 
 @export_group("Init")
 @export var starting_parts: int
@@ -58,30 +59,49 @@ var is_drifting_right: bool = false
 var turbo_energy_accumulated: float
 var turbo_energy_gained: float
 
+var is_dead: bool
+
 signal dash_started
 signal dash_ended
 signal dash_ready
 signal new_part_spawned(part: SnakePart)
 
-func get_combo_threshold(): return combo_threshold_start + combo_count * combo_threshold_add
-func is_dashing(): return not dash_dur.is_stopped()
-func dash_in_cd(): return not dash_cd.is_stopped()
-func in_turbo(): return turbo_energy_gained > 0
 
-func _init() -> void:
+func get_combo_threshold():
+	return combo_threshold_start + combo_count * combo_threshold_add
+
+
+func is_dashing():
+	return not dash_dur.is_stopped()
+
+
+func dash_in_cd():
+	return not dash_cd.is_stopped()
+
+
+func in_turbo():
+	return turbo_energy_gained > 0
+
+
+func _ready() -> void:
 	hub.snake = self
 	hub.game_state.state_changed.connect(_game_state_changed)
 	pass
+
 
 func _exit_tree() -> void:
 	hub.snake = null
 	pass
 
-func _game_state_changed(state):
 
-  	pass
-func _ready() -> void:
-	_process(0.16) #Hack to make sure the snake is positioned properly before caching positions
+func _game_state_changed(state):
+	if state == GameState.State.Playing:
+		_setup()
+	pass
+
+
+func _setup() -> void:
+	_process(0.16)  #Hack to make sure the snake is positioned properly before caching positions
 	dash_dur.timeout.connect(_on_dash_done)
 	dash_cd.timeout.connect(func(): dash_ready.emit())
 	position_cacher.fill_empty(position - TUtils.forward(transform), Vector3.ZERO)
@@ -91,14 +111,20 @@ func _ready() -> void:
 		spawn_new_part()
 	pass
 
+
 func _on_dash_done():
 	dash_cd.start()
 	position_cacher.process_mode = Node.PROCESS_MODE_PAUSABLE
 	dash_ended.emit()
 	pass
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if hub.game_state.current_state != GameState.State.Playing:
+		return
+
+	var world = hub.world
 	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
 
 	# Combo drain
@@ -113,31 +139,31 @@ func _process(delta: float) -> void:
 
 	# vertical movement
 	var wave_offset = 0
-	if !is_dashing():
+	if not is_dead and !is_dashing():
 		wave_timer += delta
 		wave_offset = sin(wave_timer * wave_frequency) * height_wave
 
 	position = world.position + world_up * (world.radius + height_offset + wave_offset)
 
-	if is_drifting:
+	if not is_dead and is_drifting:
 		turbo_energy_accumulated += energy_regen * delta
 
-	if Input.is_action_just_released("drift"):
+	if not is_dead and Input.is_action_just_released("drift"):
 		turbo_energy_gained = turbo_energy_accumulated
 		turbo_energy_accumulated = 0
 
-	if turbo_energy_gained > 0:
+	if not is_dead and turbo_energy_gained > 0:
 		turbo_energy_gained -= energy_drain * delta
 
-	if not is_dashing():	
+	if not is_dead and not is_dashing():
 		_rotation_mov(world_up, delta)
 
 	_horizontal_mov(delta)
 
-	if Input.is_action_just_released("drift"):
+	if not is_dead and Input.is_action_just_released("drift"):
 		curr_speed = curr_speed.normalized() * target_speed.length()
 
-	if (Input.is_action_pressed("dash") and dash_cd.is_stopped() and not is_dashing()):
+	if not is_dead and Input.is_action_pressed("dash") and dash_cd.is_stopped() and not is_dashing():
 		is_drifting = false
 		dash_dur.start()
 		position_cacher.process_mode = Node.PROCESS_MODE_DISABLED
@@ -145,9 +171,10 @@ func _process(delta: float) -> void:
 
 	# Rotate head to always orbit around planet
 	local_forward = world_up.cross(transform.basis.x)
-	var target = position + local_forward 
+	var target = position + local_forward
 	look_at(target, world_up)
 	pass
+
 
 func _rotation_mov(world_up: Vector3, delta: float) -> float:
 	var delta_rotation = 0
@@ -173,9 +200,10 @@ func _rotation_mov(world_up: Vector3, delta: float) -> float:
 	rotate(world_up, delta_rotation * delta)
 	return delta_rotation
 
+
 func _horizontal_mov(delta: float) -> void:
 	var forward = TUtils.forward(transform)
-	var speed_magnitude = normal_speed	
+	var speed_magnitude = normal_speed
 	if is_dashing():
 		speed_magnitude = dash_speed
 	else:
@@ -187,12 +215,13 @@ func _horizontal_mov(delta: float) -> void:
 		if in_turbo():
 			speed_magnitude += turbo_add_speed
 
-	target_speed = forward * speed_magnitude
+	if not is_dead:
+		target_speed = forward * speed_magnitude
 
-
-	curr_speed = lerp(target_speed, curr_speed, speed_lerp) 
+	curr_speed = lerp(target_speed, curr_speed, speed_lerp)
 	move_and_collide(curr_speed * delta)
 	pass
+
 
 func clear_combo():
 	combo_energy = 0
@@ -200,11 +229,13 @@ func clear_combo():
 	combo_updated.emit(combo_count)
 	pass
 
+
 func remove_combo():
 	combo_count -= 1
 	combo_energy = get_combo_threshold() - 0.01
 	combo_updated.emit(combo_count)
 	pass
+
 
 func add_combo():
 	combo_energy += combo_added
@@ -213,6 +244,7 @@ func add_combo():
 		combo_count += 1
 		combo_updated.emit(combo_count)
 	pass
+
 
 func spawn_new_part():
 	var new_part = s_snake_part.instantiate()
@@ -240,6 +272,16 @@ func _update_parts_visuals():
 		parts[i].scale = Vector3.ONE * part_size_per_part.sample(p)
 	pass
 
+
 func kill_snake():
 	print("TODO: Kill the snake")
+	is_dead = true
+	snake_head.visible = false
+	vfx_death.restart()
+	vfx_death.emitting = true
+	target_speed = Vector3.ZERO
+	pass
+
+func spawn_anim():
+	animation.play("spawn")
 	pass

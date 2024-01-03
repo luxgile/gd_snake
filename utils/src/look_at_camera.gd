@@ -7,6 +7,7 @@ class_name LookAtCamera
 
 var _camera: Node3D
 
+
 func _process(delta: float) -> void:
 	if _camera != null:
 		var cam_up = TUtils.up(_camera.transform)
@@ -15,7 +16,7 @@ func _process(delta: float) -> void:
 		if invert_forward:
 			forward *= -1
 		forward = lerp(forward, local_forward, rot_smooth)
-		look_at(global_position + forward, cam_up)	
+		look_at(global_position + forward, cam_up)
 	else:
 		if Engine.is_editor_hint():
 			_camera = EditorInterface.get_editor_viewport_3d().get_camera_3d()

@@ -10,6 +10,7 @@ extends Node
 var rot_target: float
 var curr_target: float
 
+
 func _process(delta: float) -> void:
 	rot_target = 0
 	if snake.is_drifting:

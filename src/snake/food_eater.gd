@@ -6,15 +6,18 @@ class_name FoodEater
 @export var sfx: AudioStreamPlayer
 @export var pitch_variation: float
 
+
 func _ready() -> void:
 	area.body_entered.connect(_body_entered)
 	area.area_entered.connect(_area_entered)
 	pass
 
+
 func _area_entered(area: Area3D):
 	if area is Obstacle and not snake.is_dashing():
 		snake.kill_snake()
 	pass
+
 
 func _body_entered(node: Node3D):
 	if node is Food:
@@ -26,5 +29,3 @@ func _body_entered(node: Node3D):
 		sfx.pitch_scale = 1.0 + RandomUtils.rand_real() * pitch_variation
 		sfx.play()
 	pass
-
- 

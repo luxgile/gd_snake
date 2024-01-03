@@ -7,9 +7,11 @@ extends BpmNode
 
 var timer = 0
 
+
 func _on_beat(beat: int):
 	timer = 0
 	pass
+
 
 func _process(delta: float) -> void:
 	timer += delta
