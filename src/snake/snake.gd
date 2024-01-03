@@ -70,12 +70,16 @@ func in_turbo(): return turbo_energy_gained > 0
 
 func _init() -> void:
 	hub.snake = self
+	hub.game_state.state_changed.connect(_game_state_changed)
 	pass
 
 func _exit_tree() -> void:
 	hub.snake = null
 	pass
 
+func _game_state_changed(state):
+
+  	pass
 func _ready() -> void:
 	_process(0.16) #Hack to make sure the snake is positioned properly before caching positions
 	dash_dur.timeout.connect(_on_dash_done)
