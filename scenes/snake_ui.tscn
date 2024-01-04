@@ -1,7 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bap83xqb5sdqs"]
 
 [ext_resource type="FontFile" uid="uid://bpf70qe6pracn" path="res://graphics/fonts/Robofan Free.otf" id="1_t7nhh"]
+[ext_resource type="StyleBox" uid="uid://cad0efij6c2tr" path="res://graphics/styles/progress_bar_bg.tres" id="2_4s26u"]
 [ext_resource type="Script" path="res://src/snake/snake_ui.gd" id="2_o4naw"]
+[ext_resource type="StyleBox" uid="uid://du2y43xwt2lv8" path="res://graphics/styles/progress_bar_fill.tres" id="3_wklwr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jjjhd"]
 font = ExtResource("1_t7nhh")
@@ -10,30 +12,6 @@ font_color = Color(0, 0.360784, 1, 1)
 outline_size = 4
 outline_color = Color(0, 0.780962, 0.884148, 1)
 shadow_size = 41
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uldnu"]
-bg_color = Color(0, 0.360784, 1, 0.105882)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0.780962, 0.884148, 1)
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6csl"]
-bg_color = Color(0, 0.780962, 0.884148, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jfj22"]
 
@@ -73,8 +51,8 @@ anchor_right = 1.23913
 anchor_bottom = 0.813333
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_uldnu")
-theme_override_styles/fill = SubResource("StyleBoxFlat_o6csl")
+theme_override_styles/background = ExtResource("2_4s26u")
+theme_override_styles/fill = ExtResource("3_wklwr")
 value = 14.54
 show_percentage = false
 metadata/_edit_use_anchors_ = true
