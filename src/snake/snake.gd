@@ -82,6 +82,9 @@ func dash_in_cd():
 func in_turbo():
 	return turbo_energy_gained > 0
 
+func has_enough_energy_for_turbo():
+	return turbo_energy_accumulated >= min_energy_for_turbo
+
 
 func _ready() -> void:
 	hub.snake = self
@@ -149,7 +152,8 @@ func _process(delta: float) -> void:
 		turbo_energy_accumulated += energy_regen * delta
 
 	if not is_dead and Input.is_action_just_released("drift"):
-		turbo_energy_gained = turbo_energy_accumulated
+		if has_enough_energy_for_turbo():
+			turbo_energy_gained = turbo_energy_accumulated
 		turbo_energy_accumulated = 0
 
 	if not is_dead and turbo_energy_gained > 0:
@@ -163,7 +167,12 @@ func _process(delta: float) -> void:
 	if not is_dead and Input.is_action_just_released("drift"):
 		curr_speed = curr_speed.normalized() * target_speed.length()
 
-	if not is_dead and Input.is_action_pressed("dash") and dash_cd.is_stopped() and not is_dashing():
+	if (
+		not is_dead
+		and Input.is_action_pressed("dash")
+		and dash_cd.is_stopped()
+		and not is_dashing()
+	):
 		is_drifting = false
 		dash_dur.start()
 		position_cacher.process_mode = Node.PROCESS_MODE_DISABLED
@@ -274,13 +283,14 @@ func _update_parts_visuals():
 
 
 func kill_snake():
-	print("TODO: Kill the snake")
 	is_dead = true
 	snake_head.visible = false
 	vfx_death.restart()
 	vfx_death.emitting = true
 	target_speed = Vector3.ZERO
+	hub.game_transition.end_game()
 	pass
+
 
 func spawn_anim():
 	animation.play("spawn")

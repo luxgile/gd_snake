@@ -18,10 +18,6 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 
 hub="*res://src/hub.gd"
 
-[display]
-
-window/size/always_on_top=true
-
 [input]
 
 rotate_left={

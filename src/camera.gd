@@ -8,18 +8,19 @@ class_name SnakeCamera
 @export var look_offset: Vector3
 @export var offset_speed_mult: float
 @export var fov_speed_div: float
+@export var start_mode: GameState.State
 @export var update_mode: GameState.State
-
 
 func change_state(state: GameState.State):
 	update_mode = state
 	pass
 
+
 func _process(delta: float) -> void:
 	if update_mode == GameState.State.Playing:
 		_playing_update(delta)
 	else:
-		position = menu_pos.position
+		position = lerp(menu_pos.position, position, position_smoothness)
 		look_at(Vector3.ZERO)
 	pass
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=40 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://src/game_transition.gd" id="7_q5v8g"]
 [ext_resource type="Script" path="res://src/audio/bpm_master.gd" id="9_d0lcr"]
 [ext_resource type="AudioStream" uid="uid://d3y8qps3chkmq" path="res://audio/drums 100bpm.wav" id="9_vojrl"]
+[ext_resource type="Resource" uid="uid://cy24ssdnrjrii" path="res://config/menu_song.tres" id="11_oysb2"]
 [ext_resource type="Resource" uid="uid://uvrq74rsgiuo" path="res://config/playing_song.tres" id="11_rore3"]
 [ext_resource type="FontFile" uid="uid://bpf70qe6pracn" path="res://graphics/fonts/Robofan Free.otf" id="12_n6rv2"]
 [ext_resource type="Shader" path="res://graphics/shaders/glitch.gdshader" id="12_ocjw8"]
@@ -161,7 +162,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Vector3(0.1, 0.1, 0.1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -173,7 +174,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Vector3(0.15, 0.15, 0.15)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -203,7 +204,6 @@ tracks/3/keys = {
 [sub_resource type="Animation" id="Animation_4cscb"]
 resource_name = "despawn"
 length = 0.5
-step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -214,7 +214,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0.98, 0.98, 0.98), Vector3(0, 0, 0)]
+"values": [Vector3(0.98, 0.98, 0.98), Vector3(0.1, 0.1, 0.1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -226,7 +226,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1, 1, 1), Vector3(0, 0, 0)]
+"values": [Vector3(1, 1, 1), Vector3(0.15, 0.15, 0.15)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -267,7 +267,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.98, 0.98, 0.98)]
+"values": [Vector3(0.1, 0.1, 0.1), Vector3(0.98, 0.98, 0.98)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -279,7 +279,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(1, 1, 1)]
+"values": [Vector3(0.15, 0.15, 0.15), Vector3(1, 1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -379,13 +379,13 @@ animation = NodePath("ico_sphere/player")
 transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, 0, 0)
 
 [node name="base" type="MeshInstance3D" parent="world/ico_sphere"]
-transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_eix11")
 mesh = SubResource("ArrayMesh_rx4fs")
 skeleton = NodePath("")
 
 [node name="Icosphere" type="MeshInstance3D" parent="world/ico_sphere"]
-transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_snabi")
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_vshj8")
@@ -413,6 +413,7 @@ spawn_dir = Vector3(0, 1, 0)
 world = NodePath("../world")
 camera = NodePath("../camera")
 playing_song = ExtResource("11_rore3")
+menu_song = ExtResource("11_oysb2")
 
 [node name="game_state" type="Node" parent="."]
 script = ExtResource("7_ji773")

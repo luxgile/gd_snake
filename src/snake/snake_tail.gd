@@ -16,12 +16,14 @@ func _ready() -> void:
 	hub.game_state.state_changed.connect(_game_state_changed)
 	pass
 
+
 func _game_state_changed(state):
 	if state == GameState.State.Playing:
 		tail_parent.visible = true
 	else:
 		tail_parent.visible = false
 	pass
+
 
 func _process(_delta: float) -> void:
 	if hub.game_state.current_state != GameState.State.Playing:

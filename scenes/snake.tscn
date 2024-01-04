@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=92 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -31,6 +31,12 @@ emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 4.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_0m4kt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qflgs"]
+emission_enabled = true
+emission = Color(0.482353, 0.921569, 0.14902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7vv5g"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_smroy"]
 radius = 0.427867
@@ -219,7 +225,7 @@ emission_shape = 1
 emission_sphere_radius = 0.1
 spread = 10.0
 initial_velocity_min = 1.0
-initial_velocity_max = 10.0
+initial_velocity_max = 5.0
 velocity_limit_curve = SubResource("CurveTexture_68ojl")
 gravity = Vector3(0, 0, 0)
 attractor_interaction_enabled = false
@@ -232,6 +238,130 @@ turbulence_enabled = true
 turbulence_noise_strength = 20.0
 turbulence_noise_scale = 0.05
 turbulence_influence_over_life = SubResource("CurveTexture_pnce4")
+
+[sub_resource type="Gradient" id="Gradient_t5geu"]
+offsets = PackedFloat32Array(0, 0.986755)
+colors = PackedColorArray(0.482353, 0.921569, 0.14902, 1, 0, 0.780962, 0.884148, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o53ce"]
+gradient = SubResource("Gradient_t5geu")
+
+[sub_resource type="Curve" id="Curve_ovufu"]
+max_value = 100.0
+_data = [Vector2(0, 4), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_wdtii"]
+curve = SubResource("Curve_ovufu")
+
+[sub_resource type="Curve" id="Curve_cx4xc"]
+_data = [Vector2(0.104895, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r7qrd"]
+curve = SubResource("Curve_cx4xc")
+
+[sub_resource type="Curve" id="Curve_fgsk8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241611, 0.885811), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_clpuu"]
+curve = SubResource("Curve_fgsk8")
+
+[sub_resource type="Curve" id="Curve_inm8m"]
+max_value = 100.0
+_data = [Vector2(0.4, 100), 0.0, 0.0, 0, 0, Vector2(0.8, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ob43x"]
+curve = SubResource("Curve_inm8m")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4pk31"]
+emission_shape = 1
+emission_sphere_radius = 0.1
+spread = 10.0
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+velocity_limit_curve = SubResource("CurveTexture_ob43x")
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 0.05
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_r7qrd")
+color_initial_ramp = SubResource("GradientTexture1D_o53ce")
+emission_curve = SubResource("CurveTexture_wdtii")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.05
+turbulence_influence_over_life = SubResource("CurveTexture_clpuu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvks5"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+distance_fade_max_distance = 20.0
+
+[sub_resource type="Gradient" id="Gradient_lxdcp"]
+offsets = PackedFloat32Array(0, 0.986755)
+colors = PackedColorArray(0.482353, 0.921569, 0.14902, 1, 0, 0.780962, 0.884148, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q43ju"]
+gradient = SubResource("Gradient_lxdcp")
+
+[sub_resource type="Curve" id="Curve_ud8nw"]
+max_value = 100.0
+_data = [Vector2(0, 4), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_3w1ov"]
+curve = SubResource("Curve_ud8nw")
+
+[sub_resource type="Curve" id="Curve_ps6bn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.201117, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i7c57"]
+curve = SubResource("Curve_ps6bn")
+
+[sub_resource type="Curve" id="Curve_gvrs7"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241611, 0.885811), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_78ifw"]
+curve = SubResource("Curve_gvrs7")
+
+[sub_resource type="Curve" id="Curve_qtjsq"]
+max_value = 100.0
+_data = [Vector2(0.4, 100), 0.0, 0.0, 0, 0, Vector2(0.8, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gw1qx"]
+curve = SubResource("Curve_qtjsq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kow55"]
+angle_max = 360.0
+spread = 10.0
+angular_velocity_max = 90.0
+velocity_limit_curve = SubResource("CurveTexture_gw1qx")
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 0.1
+scale_curve = SubResource("CurveTexture_i7c57")
+color_initial_ramp = SubResource("GradientTexture1D_q43ju")
+emission_curve = SubResource("CurveTexture_3w1ov")
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.05
+turbulence_influence_over_life = SubResource("CurveTexture_78ifw")
+
+[sub_resource type="SphereMesh" id="SphereMesh_eu3x3"]
+radius = 0.05
+height = 5.0
+radial_segments = 8
+rings = 8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7td6g"]
 albedo_color = Color(0, 0.780962, 0.884148, 1)
@@ -343,7 +473,7 @@ position_cacher = NodePath("pos_cacher")
 snake_head = NodePath("snake root 3")
 animation = NodePath("animation")
 vfx_death = NodePath("vfx_death")
-starting_parts = 100
+starting_parts = 1
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
@@ -360,6 +490,7 @@ turbo_add_speed = 10.0
 target_to_current_turbo_ratio = 1.0
 energy_regen = 5.0
 energy_drain = 2.0
+min_energy_for_turbo = 4.0
 combo_threshold_start = 5.0
 combo_threshold_add = 2.0
 combo_added = 1.0
@@ -386,6 +517,13 @@ skeleton = NodePath("../..")
 
 [node name="snake root 3" parent="." instance=ExtResource("4_n4vtc")]
 transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[node name="dash_indicator" type="Node3D" parent="snake root 3"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="snake root 3/dash_indicator"]
+transform = Transform3D(0.263298, 0.263298, 0, -0.263298, 0.263298, 0, 0, 0, 0.37236, 0.0129056, 0, -0.199662)
+material_override = SubResource("StandardMaterial3D_qflgs")
+mesh = SubResource("BoxMesh_7vv5g")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.439715)
@@ -419,13 +557,15 @@ transform = Transform3D(1.71962e-16, 9.75285e-09, 0.09, 0.09, -9.75285e-09, 0, 3
 mesh = SubResource("CapsuleMesh_6b1v5")
 skeleton = NodePath("../..")
 
-[node name="drift" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root", "drift_vfx", "turbo_vfx")]
+[node name="drift" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_root", "drift_low_vfx", "drift_high_vfx", "drift_high_start_vfx", "turbo_vfx")]
 script = ExtResource("8_bacst")
 snake = NodePath("..")
 snake_root = NodePath("../snake root 3")
 drift_model_rot = 45.0
 drift_smoothness = 0.9
-drift_vfx = NodePath("../vfx_drift")
+drift_low_vfx = NodePath("../vfx_drift_low")
+drift_high_vfx = NodePath("../vfx_drift_high")
+drift_high_start_vfx = NodePath("../vfx_drift_high_start")
 turbo_vfx = NodePath("../vfx_turbo")
 
 [node name="tail" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_dash", "tail_parent", "tail")]
@@ -458,7 +598,7 @@ material = SubResource("StandardMaterial3D_7r0hi")
 script = ExtResource("4_pdr7o")
 snake = NodePath("..")
 snake_root = NodePath("../snake root 3")
-dash_indicator = NodePath("../snake root/eyes")
+dash_indicator = NodePath("../snake root 3/dash_indicator")
 pos_cacher = NodePath("../pos_cacher")
 s_vfx = ExtResource("5_jr8wf")
 vfxs = NodePath("../vfx_dash")
@@ -544,8 +684,22 @@ draw_passes = 2
 draw_pass_1 = SubResource("RibbonTrailMesh_yyyie")
 draw_pass_2 = null
 
-[node name="vfx_drift" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0438767, 0.324205)
+[node name="vfx_drift_low" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0438767, 0.0372972)
+material_override = SubResource("StandardMaterial3D_k5sf2")
+cast_shadow = 0
+emitting = false
+amount = 64
+visibility_aabb = AABB(-4.75849, -5.01039, -8.36539, 10.4443, 10.013, 9.6939)
+transform_align = 2
+trail_lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_yqvhj")
+draw_passes = 2
+draw_pass_1 = SubResource("SphereMesh_cyst8")
+draw_pass_2 = null
+
+[node name="vfx_drift_high" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0126021)
 material_override = SubResource("StandardMaterial3D_k5sf2")
 cast_shadow = 0
 emitting = false
@@ -553,9 +707,28 @@ amount = 128
 visibility_aabb = AABB(-4.75849, -5.01039, -8.36539, 10.4443, 10.013, 9.6939)
 transform_align = 2
 trail_lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_yqvhj")
+process_material = SubResource("ParticleProcessMaterial_4pk31")
 draw_passes = 2
 draw_pass_1 = SubResource("SphereMesh_cyst8")
+draw_pass_2 = null
+
+[node name="vfx_drift_high_start" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.11682)
+material_override = SubResource("StandardMaterial3D_fvks5")
+cast_shadow = 0
+emitting = false
+amount = 6
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+visibility_aabb = AABB(-4.75849, -5.01039, -8.36539, 10.4443, 10.013, 9.6939)
+local_coords = true
+transform_align = 1
+trail_lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_kow55")
+draw_passes = 2
+draw_pass_1 = SubResource("SphereMesh_eu3x3")
 draw_pass_2 = null
 
 [node name="vfx_turbo" type="GPUParticles3D" parent="."]
@@ -585,7 +758,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(-0.422564, 0.325689, -0.845793, 0.172348, 0.945049, 0.277805, 0.889793, -0.0283804, -0.455477, 0, 0, 0)
+transform = Transform3D(0.996915, -0.0287553, 0.0729996, -3.72528e-09, 0.930416, 0.366502, -0.0784588, -0.365371, 0.92755, 0, 0, 0)
 script = ExtResource("9_dp0x1")
 invert_forward = true
 rot_smooth = 0.1

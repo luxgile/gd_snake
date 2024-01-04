@@ -13,6 +13,10 @@ func _init() -> void:
 	hub.game_transition = self
 	pass
 
+func _ready():
+	hub.bpm_master.play(menu_song)
+	pass
+
 func start_game():
 	var game_state = hub.game_state
 	if game_state.current_state == GameState.State.Menu:
@@ -25,7 +29,6 @@ func start_game():
 		await hub.bpm_master.new_beat
 		_spawn_player()
 		camera.change_state(GameState.State.Playing)
-		# TODO: Move camera here
 
 		await hub.bpm_master.new_beat
 		hub.snake.spawn_anim()
@@ -34,6 +37,25 @@ func start_game():
 		game_state.change_state(GameState.State.Playing)
 	pass
 
+func end_game():
+	var game_state = hub.game_state
+	if game_state.current_state == GameState.State.Playing:
+		game_state.change_state(GameState.State.Transition)
+		hub.bpm_master.play(menu_song)
+
+		await hub.bpm_master.new_beat
+		hub.world.despawn_planet()
+
+		await hub.bpm_master.new_beat
+		_despawn_player()
+		camera.change_state(GameState.State.Menu)
+
+		# await hub.bpm_master.new_beat
+		# hub.snake.spawn_anim()
+
+		await hub.bpm_master.new_beat
+		game_state.change_state(GameState.State.Menu)
+	pass
 
 func _spawn_player():
 	var player_node = s_player.instantiate()
@@ -41,4 +63,8 @@ func _spawn_player():
 		var snake: Snake = player_node
 		snake.position = spawn_dir.normalized() * (world.radius + snake.height_offset)
 		player_parent.add_child(snake)
+	pass
+
+func _despawn_player():
+	hub.snake.queue_free()
 	pass

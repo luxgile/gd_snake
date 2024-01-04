@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://cy24ssdnrjrii"]
+
+[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_0bhgh"]
+[ext_resource type="AudioStream" uid="uid://d2dhdmtd84wl8" path="res://audio/main_menu_music 110bpm.wav" id="2_omrm4"]
+
+[resource]
+script = ExtResource("1_0bhgh")
+song = ExtResource("2_omrm4")
+bpm = 110.0

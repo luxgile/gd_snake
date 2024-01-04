@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dvuaagoa7ojjp"]
+[gd_scene load_steps=25 format=3 uid="uid://dvuaagoa7ojjp"]
 
 [ext_resource type="Script" path="res://src/food.gd" id="1_5jbp2"]
 
@@ -31,7 +31,6 @@ radius = 0.7
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2blq"]
 shading_mode = 0
 vertex_color_use_as_albedo = true
-use_particle_trails = true
 
 [sub_resource type="Curve" id="Curve_makmh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
@@ -40,13 +39,6 @@ point_count = 1
 [sub_resource type="CurveTexture" id="CurveTexture_mxoq8"]
 curve = SubResource("Curve_makmh")
 
-[sub_resource type="Curve" id="Curve_mjsyw"]
-_data = [Vector2(0.247232, 0), 0.0, 0.0, 0, 0, Vector2(0.343173, 0.27997), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_x4jqt"]
-curve = SubResource("Curve_mjsyw")
-
 [sub_resource type="Curve" id="Curve_5riwb"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.760148, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -54,53 +46,28 @@ point_count = 3
 [sub_resource type="CurveTexture" id="CurveTexture_3l5jl"]
 curve = SubResource("Curve_5riwb")
 
-[sub_resource type="Curve" id="Curve_ea6cn"]
-max_value = 5.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1.89302), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_2p101"]
-curve = SubResource("Curve_ea6cn")
-
-[sub_resource type="Curve" id="Curve_3umrb"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_p44j1"]
-curve = SubResource("Curve_3umrb")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7ypkh"]
-emission_shape = 2
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6rudl"]
+emission_shape = 1
 emission_sphere_radius = 0.01
-direction = Vector3(0, 1, 0)
-spread = 0.0
-initial_velocity_min = 0.5
+velocity_pivot = Vector3(0, 1, 0)
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 5.0
 initial_velocity_max = 10.0
 orbit_velocity_max = 1.0
-radial_velocity_min = 5.0
-radial_velocity_max = 5.0
-radial_velocity_curve = SubResource("CurveTexture_x4jqt")
 gravity = Vector3(0, 0, 0)
-tangential_accel_curve = SubResource("CurveTexture_2p101")
-attractor_interaction_enabled = false
 scale_min = 0.01
 scale_max = 0.1
 scale_curve = SubResource("CurveTexture_3l5jl")
 color = Color(0.482353, 0.921569, 0.14902, 1)
 emission_curve = SubResource("CurveTexture_mxoq8")
 turbulence_enabled = true
-turbulence_noise_strength = 10.0
-turbulence_noise_scale = 2.0
-turbulence_noise_speed_random = 0.1
-turbulence_influence_over_life = SubResource("CurveTexture_p44j1")
+turbulence_noise_scale = 0.193
+turbulence_noise_speed = Vector3(1, 0, 0)
 
-[sub_resource type="Curve" id="Curve_2pj8p"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.495049, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_v8fqx"]
-size = 0.5
-curve = SubResource("Curve_2pj8p")
+[sub_resource type="SphereMesh" id="SphereMesh_lcx8s"]
+radial_segments = 8
+rings = 4
 
 [sub_resource type="Animation" id="Animation_y0ksh"]
 length = 0.001
@@ -191,7 +158,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("GPUParticles3D:emitting")
+tracks/7/path = NodePath("vfx_eaten:emitting")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -297,14 +264,14 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("GPUParticles3D:emitting")
+tracks/6/path = NodePath("vfx_eaten:emitting")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0, 0.03),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false, true]
+"values": [false, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iiufr"]
@@ -338,7 +305,7 @@ transitions = ["Start", "spawn", SubResource("AnimationNodeStateMachineTransitio
 
 [node name="food" type="StaticBody3D" node_paths=PackedStringArray("vfx")]
 script = ExtResource("1_5jbp2")
-vfx = NodePath("GPUParticles3D")
+vfx = NodePath("vfx_eaten")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.51239, 0, 0, 0, 0.51239, 0, 0, 0, 0.51239, 0, 3, 0)
@@ -375,18 +342,16 @@ mesh = SubResource("SphereMesh_xxeqx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_6a305")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 1.49012e-08, 1.49012e-08, -2.33205e-16, 1, -1.86264e-08, 3.14935e-15, -4.84288e-08, 1, 0, 0, 0)
+[node name="vfx_eaten" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_v2blq")
 emitting = false
 amount = 256
 lifetime = 4.0
 one_shot = true
 explosiveness = 1.0
-trail_enabled = true
-trail_lifetime = 0.1
-process_material = SubResource("ParticleProcessMaterial_7ypkh")
-draw_pass_1 = SubResource("RibbonTrailMesh_v8fqx")
+trail_lifetime = 1.0
+process_material = SubResource("ParticleProcessMaterial_6rudl")
+draw_pass_1 = SubResource("SphereMesh_lcx8s")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 libraries = {

@@ -4,6 +4,7 @@ extends Node
 @export var text_parts: Label
 @export var bar_combo: ProgressBar
 
+
 func _ready() -> void:
 	hub.game_state.state_changed.connect(_game_state_changed)
 	pass
@@ -13,6 +14,7 @@ func _game_state_changed(state):
 	if state == GameState.State.Playing:
 		_setup()
 	pass
+
 
 func _setup() -> void:
 	text_combo.text = "x0"

@@ -46,6 +46,7 @@ func play(bpm_song: BpmSong) -> void:
 	is_playing = true
 	pass
 
+
 func stop():
 	audio_player.stop()
 	is_playing = false
