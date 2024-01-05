@@ -8,6 +8,9 @@ class_name Snake
 @export var snake_head: Node3D
 @export var animation: AnimationPlayer
 @export var vfx_death: GPUParticles3D
+@export var idle_sfx: AudioStreamPlayer3D
+@export var idle_sfx_st_pitch: float
+@export var idle_sfx_speed_pitch: float
 
 @export_group("Init")
 @export var starting_parts: int
@@ -64,6 +67,7 @@ var is_dead: bool
 signal dash_started
 signal dash_ended
 signal dash_ready
+signal turbo_started
 signal new_part_spawned(part: SnakePart)
 
 
@@ -105,6 +109,7 @@ func _game_state_changed(state):
 
 func _setup() -> void:
 	_process(0.16)  #Hack to make sure the snake is positioned properly before caching positions
+	idle_sfx.play()
 	dash_dur.timeout.connect(_on_dash_done)
 	dash_cd.timeout.connect(func(): dash_ready.emit())
 	position_cacher.fill_empty(position - TUtils.forward(transform), Vector3.ZERO)
@@ -130,6 +135,8 @@ func _process(delta: float) -> void:
 	var world = hub.world
 	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
 
+	idle_sfx.pitch_scale = idle_sfx_st_pitch + curr_speed.length() * idle_sfx_speed_pitch
+
 	# Combo drain
 	combo_energy -= combo_drain * delta
 	if combo_energy <= 0:
@@ -154,6 +161,7 @@ func _process(delta: float) -> void:
 	if not is_dead and Input.is_action_just_released("drift"):
 		if has_enough_energy_for_turbo():
 			turbo_energy_gained = turbo_energy_accumulated
+			turbo_started.emit()
 		turbo_energy_accumulated = 0
 
 	if not is_dead and turbo_energy_gained > 0:

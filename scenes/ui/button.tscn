@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://b420wiy4mdgb3"]
+
+[ext_resource type="FontFile" uid="uid://bpf70qe6pracn" path="res://graphics/fonts/Robofan Free.otf" id="1_jtlub"]
+[ext_resource type="StyleBox" uid="uid://4tk0uijdrqyi" path="res://graphics/styles/button_style_normal.tres" id="2_c2anm"]
+[ext_resource type="AudioStream" uid="uid://v4aqk72dghr6" path="res://audio/ui_hover.wav" id="3_peikt"]
+[ext_resource type="StyleBox" uid="uid://bjxoy2e5vj6yx" path="res://graphics/styles/button_style_hover.tres" id="3_upph8"]
+[ext_resource type="AudioStream" uid="uid://brgcbaddi6sbk" path="res://audio/ui_click.wav" id="4_yoi6i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bksgi"]
+bg_color = Color(0, 0, 0, 0.972549)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.780962, 0.884148, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="play" type="Button"]
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0.780962, 0.884148, 1)
+theme_override_fonts/font = ExtResource("1_jtlub")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_c2anm")
+theme_override_styles/hover = ExtResource("3_upph8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bksgi")
+text = "TEXT HERE"
+
+[node name="hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_peikt")
+volume_db = -20.0
+
+[node name="press" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_yoi6i")
+volume_db = -20.0
+
+[connection signal="mouse_entered" from="." to="hover" method="play"]
+[connection signal="pressed" from="." to="press" method="play"]

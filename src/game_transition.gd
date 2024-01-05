@@ -21,6 +21,9 @@ func start_game():
 	var game_state = hub.game_state
 	if game_state.current_state == GameState.State.Menu:
 		game_state.change_state(GameState.State.Transition)
+		hub.bpm_master.stop()
+		await get_tree().create_timer(2.0).timeout
+
 		hub.bpm_master.play(playing_song)
 
 		await hub.bpm_master.new_beat
