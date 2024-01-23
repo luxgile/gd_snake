@@ -11,6 +11,7 @@ class_name SnakeCamera
 @export var start_mode: GameState.State
 @export var update_mode: GameState.State
 
+
 func change_state(state: GameState.State):
 	update_mode = state
 	pass

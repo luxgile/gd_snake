@@ -16,9 +16,11 @@ extends Node
 var rot_target: float
 var curr_target: float
 
+
 func _ready() -> void:
 	snake.turbo_started.connect(func(): drift_turbo_sfx.play())
 	pass
+
 
 func _process(delta: float) -> void:
 	rot_target = 0

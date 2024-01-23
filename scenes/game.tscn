@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=47 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://b420wiy4mdgb3" path="res://scenes/ui/button.tscn" id="20_72avc"]
 [ext_resource type="StyleBox" uid="uid://du2y43xwt2lv8" path="res://graphics/styles/progress_bar_fill.tres" id="20_cb4a8"]
 [ext_resource type="Script" path="res://src/gameplay_ui.gd" id="21_1x0ql"]
+[ext_resource type="Script" path="res://src/stats.gd" id="22_chjxc"]
 
 [sub_resource type="Environment" id="Environment_hmlkr"]
 background_mode = 2
@@ -384,7 +385,6 @@ transform = Transform3D(1, 1.49012e-08, 0, 0, 1, 0, -2.98023e-08, 1.49012e-08, 1
 top_level = true
 
 [node name="listener" type="AudioListener3D" parent="camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 current = true
 
 [node name="light & env" type="Node3D" parent="."]
@@ -573,3 +573,6 @@ script = ExtResource("17_73ve2")
 root = NodePath("..")
 b_exit = NodePath("../VBoxContainer/exit")
 b_start = NodePath("../VBoxContainer/play")
+
+[node name="stats" type="Node" parent="."]
+script = ExtResource("22_chjxc")

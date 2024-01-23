@@ -22,8 +22,9 @@ func _area_entered(area: Area3D):
 func _body_entered(node: Node3D):
 	if node is Food:
 		var food: Food = node
+		hub.stats.data.times_eaten += 1
 		snake.add_combo()
-		for i in food.food_value + snake.combo_count:
+		for i in food.food_value + snake.combo_count - 1:
 			snake.spawn_new_part()
 		food.eat_food()
 		sfx.pitch_scale = 1.0 + RandomUtils.rand_real() * pitch_variation

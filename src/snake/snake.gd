@@ -52,6 +52,7 @@ var combo_energy: float
 var combo_count: int
 signal combo_updated(combo: int)
 
+var time_alive = 0
 var parts: Array[SnakePart] = []
 var curr_speed: Vector3
 var target_speed: Vector3
@@ -64,6 +65,7 @@ var turbo_energy_gained: float
 
 var is_dead: bool
 
+signal died
 signal dash_started
 signal dash_ended
 signal dash_ready
@@ -85,6 +87,7 @@ func dash_in_cd():
 
 func in_turbo():
 	return turbo_energy_gained > 0
+
 
 func has_enough_energy_for_turbo():
 	return turbo_energy_accumulated >= min_energy_for_turbo
@@ -131,6 +134,9 @@ func _on_dash_done():
 func _process(delta: float) -> void:
 	if hub.game_state.current_state != GameState.State.Playing:
 		return
+	
+	if not is_dead:
+		time_alive += delta
 
 	var world = hub.world
 	body_vfx.lifetime = lifetime_per_part.sample(parts.size())
@@ -141,7 +147,7 @@ func _process(delta: float) -> void:
 	combo_energy -= combo_drain * delta
 	if combo_energy <= 0:
 		combo_energy = 0
-		if combo_count > 0:
+		if combo_count > 1:
 			remove_combo()
 
 	var local_forward = -transform.basis.z.normalized()
@@ -242,7 +248,7 @@ func _horizontal_mov(delta: float) -> void:
 
 func clear_combo():
 	combo_energy = 0
-	combo_count = 0
+	combo_count = 1
 	combo_updated.emit(combo_count)
 	pass
 
@@ -296,6 +302,7 @@ func kill_snake():
 	vfx_death.restart()
 	vfx_death.emitting = true
 	target_speed = Vector3.ZERO
+	died.emit()
 	hub.game_transition.end_game()
 	pass
 
