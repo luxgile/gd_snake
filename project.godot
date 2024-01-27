@@ -10,13 +10,19 @@ config_version=5
 
 [application]
 
-config/name="snek"
+config/name="Super Spacesnek 2098"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/show_image=false
 
 [autoload]
 
 hub="*res://src/hub.gd"
+
+[display]
+
+window/size/mode=3
+mouse_cursor/custom_image="res://graphics/mouse/icons8-navigation-32.png"
 
 [input]
 

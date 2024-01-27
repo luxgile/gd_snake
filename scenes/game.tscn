@@ -530,7 +530,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_sinl4")
 
 [node name="Label" type="Label" parent="main_menu/VBoxContainer"]
 layout_mode = 2
-text = "TURBO SPACENEK 2099"
+text = "SUPER SPACENEK 2098"
 label_settings = SubResource("LabelSettings_s5ens")
 horizontal_alignment = 1
 vertical_alignment = 1
