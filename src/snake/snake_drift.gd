@@ -19,6 +19,11 @@ var curr_target: float
 
 func _ready() -> void:
 	snake.turbo_started.connect(func(): drift_turbo_sfx.play())
+	snake.died.connect(func(): 
+		turbo_vfx.visible = false
+		drift_low_vfx.visible = false
+		drift_high_vfx.visible = false
+		pass)
 	pass
 
 

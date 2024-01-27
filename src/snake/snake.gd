@@ -52,6 +52,11 @@ var combo_energy: float
 var combo_count: int
 signal combo_updated(combo: int)
 
+@export_subgroup("Death")
+@export var part_death_delay := 0.1
+var is_dead: bool
+signal died
+
 var time_alive = 0
 var parts: Array[SnakePart] = []
 var curr_speed: Vector3
@@ -63,9 +68,6 @@ var is_drifting_right: bool = false
 var turbo_energy_accumulated: float
 var turbo_energy_gained: float
 
-var is_dead: bool
-
-signal died
 signal dash_started
 signal dash_ended
 signal dash_ready
@@ -301,11 +303,23 @@ func kill_snake():
 	snake_head.visible = false
 	vfx_death.restart()
 	vfx_death.emitting = true
+	for part in parts:
+		part.enabled = false
+
 	target_speed = Vector3.ZERO
 	died.emit()
+	await kill_process()
+	await get_tree().create_timer(0.5).timeout
 	hub.game_transition.end_game()
 	pass
 
+func kill_process():
+	while parts.size() > 0:
+		var p = parts[0]
+		p.kill_part()
+		parts.remove_at(0)
+		await get_tree().create_timer(part_death_delay).timeout
+	pass
 
 func spawn_anim():
 	animation.play("spawn")

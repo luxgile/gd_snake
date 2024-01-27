@@ -22,6 +22,9 @@ func _ready() -> void:
 	pass
 
 func _process(_delta: float) -> void:
+	if snake.is_dead:
+		return
+
 	for vfx in vfx_spawned:
 		if (vfx.position - snake.parts[-1].global_position).length() < 1:
 			var tween =	create_tween()

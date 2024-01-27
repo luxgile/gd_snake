@@ -3,6 +3,7 @@ class_name GameTransition
 
 @export var s_player: PackedScene
 @export var player_parent: Node
+@export var glitch_panel: Panel
 @export var spawn_dir: Vector3
 @export var world: World
 @export var camera: SnakeCamera
@@ -30,10 +31,12 @@ func start_game():
 		hub.world.spawn_planet()
 
 		await hub.bpm_master.new_beat
+		glitch_panel.visible = true
 		_spawn_player()
 		camera.change_state(GameState.State.Playing)
 
 		await hub.bpm_master.new_beat
+		glitch_panel.visible = false
 		hub.snake.spawn_anim()
 
 		await hub.bpm_master.new_beat

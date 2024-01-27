@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=107 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -42,6 +42,37 @@ emission_enabled = true
 emission = Color(0.482353, 0.921569, 0.14902, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_7vv5g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vhqd8"]
+albedo_color = Color(0, 0.780962, 0.884148, 1)
+emission_enabled = true
+emission = Color(0, 0.780962, 0.884148, 1)
+distance_fade_max_distance = 20.0
+
+[sub_resource type="Curve" id="Curve_tvga6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pb3vu"]
+curve = SubResource("Curve_tvga6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wn4s4"]
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector3(0, 0, -1)
+spread = 0.0
+flatness = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.05
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_pb3vu")
+color = Color(0, 0.780962, 0.884148, 1)
+turbulence_enabled = true
+turbulence_noise_scale = 0.05
+
+[sub_resource type="SphereMesh" id="SphereMesh_cyst8"]
+radial_segments = 8
+rings = 8
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_smroy"]
 radius = 0.427867
@@ -96,42 +127,35 @@ emission_enabled = true
 use_particle_trails = true
 distance_fade_max_distance = 20.0
 
-[sub_resource type="Gradient" id="Gradient_72mfa"]
+[sub_resource type="Gradient" id="Gradient_yl0is"]
 offsets = PackedFloat32Array(0, 0.662791)
 colors = PackedColorArray(0, 0.780962, 0.884148, 1, 0, 0.113725, 0.882353, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_5t77h"]
-gradient = SubResource("Gradient_72mfa")
+gradient = SubResource("Gradient_yl0is")
 
-[sub_resource type="Curve" id="Curve_2fhaa"]
+[sub_resource type="Curve" id="Curve_5qbja"]
 max_value = 100.0
 _data = [Vector2(0, 100), 0.0, 0.0, 0, 0]
 point_count = 1
 
 [sub_resource type="CurveTexture" id="CurveTexture_iynku"]
-curve = SubResource("Curve_2fhaa")
+curve = SubResource("Curve_5qbja")
 
-[sub_resource type="Curve" id="Curve_7blry"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_pb3vu"]
-curve = SubResource("Curve_7blry")
-
-[sub_resource type="Curve" id="Curve_65815"]
+[sub_resource type="Curve" id="Curve_7p1vv"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241611, 0.885811), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_7t38f"]
-curve = SubResource("Curve_65815")
+curve = SubResource("Curve_7p1vv")
 
-[sub_resource type="Curve" id="Curve_lbj0u"]
+[sub_resource type="Curve" id="Curve_lpkor"]
 max_value = 100.0
 _data = [Vector2(0.4, 100), 0.0, 0.0, 0, 0, Vector2(0.8, 2), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_aof48"]
-curve = SubResource("Curve_lbj0u")
+curve = SubResource("Curve_lpkor")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ei2l1"]
 emission_shape = 2
@@ -153,9 +177,42 @@ turbulence_noise_strength = 20.0
 turbulence_noise_scale = 0.05
 turbulence_influence_over_life = SubResource("CurveTexture_7t38f")
 
-[sub_resource type="SphereMesh" id="SphereMesh_cyst8"]
-radial_segments = 8
-rings = 8
+[sub_resource type="Gradient" id="Gradient_72mfa"]
+offsets = PackedFloat32Array(0, 0.662791)
+colors = PackedColorArray(0, 0.780962, 0.884148, 1, 0, 0.113725, 0.882353, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8qqjd"]
+gradient = SubResource("Gradient_72mfa")
+
+[sub_resource type="Curve" id="Curve_2fhaa"]
+max_value = 100.0
+_data = [Vector2(0, 100), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_76mid"]
+curve = SubResource("Curve_2fhaa")
+
+[sub_resource type="Curve" id="Curve_7blry"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n3tju"]
+curve = SubResource("Curve_7blry")
+
+[sub_resource type="Curve" id="Curve_65815"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241611, 0.885811), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q6pu1"]
+curve = SubResource("Curve_65815")
+
+[sub_resource type="Curve" id="Curve_lbj0u"]
+max_value = 100.0
+_data = [Vector2(0.4, 100), 0.0, 0.0, 0, 0, Vector2(0.8, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mkliu"]
+curve = SubResource("Curve_lbj0u")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4nj5i"]
 emission_shape = 2
@@ -164,25 +221,25 @@ inherit_velocity_ratio = 1.0
 direction = Vector3(0, 0, -1)
 spread = 20.0
 initial_velocity_max = 10.0
-velocity_limit_curve = SubResource("CurveTexture_aof48")
+velocity_limit_curve = SubResource("CurveTexture_mkliu")
 gravity = Vector3(0, 0, 0)
 attractor_interaction_enabled = false
 scale_min = 0.01
 scale_max = 0.05
-scale_curve = SubResource("CurveTexture_pb3vu")
-color_initial_ramp = SubResource("GradientTexture1D_5t77h")
-emission_curve = SubResource("CurveTexture_iynku")
+scale_curve = SubResource("CurveTexture_n3tju")
+color_initial_ramp = SubResource("GradientTexture1D_8qqjd")
+emission_curve = SubResource("CurveTexture_76mid")
 turbulence_enabled = true
 turbulence_noise_strength = 20.0
 turbulence_noise_scale = 0.05
-turbulence_influence_over_life = SubResource("CurveTexture_7t38f")
+turbulence_influence_over_life = SubResource("CurveTexture_q6pu1")
 
-[sub_resource type="Curve" id="Curve_pxakw"]
+[sub_resource type="Curve" id="Curve_p1c0s"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_yyyie"]
-curve = SubResource("Curve_pxakw")
+curve = SubResource("Curve_p1c0s")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k5sf2"]
 shading_mode = 0
@@ -388,26 +445,6 @@ scale_curve = SubResource("CurveTexture_pb3vu")
 turbulence_noise_strength = 20.0
 turbulence_noise_scale = 0.05
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vhqd8"]
-albedo_color = Color(0, 0.780962, 0.884148, 1)
-emission_enabled = true
-emission = Color(0, 0.780962, 0.884148, 1)
-distance_fade_max_distance = 20.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wn4s4"]
-emission_shape = 1
-emission_sphere_radius = 4.0
-direction = Vector3(0, 0, -1)
-spread = 0.0
-flatness = 1.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.05
-scale_max = 0.1
-scale_curve = SubResource("CurveTexture_pb3vu")
-color = Color(0, 0.780962, 0.884148, 1)
-turbulence_enabled = true
-turbulence_noise_scale = 0.05
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_har11"]
 viewport_path = NodePath("root_at_camera/snake_ui_viewport")
 
@@ -475,7 +512,7 @@ _data = {
 [node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "animation", "vfx_death", "idle_sfx", "dash_cd", "dash_dur")]
 script = ExtResource("1_l2ibm")
 s_snake_part = ExtResource("2_ja1wh")
-body_vfx = NodePath("vfx_idle")
+body_vfx = NodePath("snake root 3/vfx_idle")
 position_cacher = NodePath("pos_cacher")
 snake_head = NodePath("snake root 3")
 animation = NodePath("animation")
@@ -483,7 +520,7 @@ vfx_death = NodePath("vfx_death")
 idle_sfx = NodePath("idle")
 idle_sfx_st_pitch = 0.9
 idle_sfx_speed_pitch = 0.05
-starting_parts = 1
+starting_parts = 50
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
@@ -505,6 +542,7 @@ combo_threshold_start = 5.0
 combo_threshold_add = 2.0
 combo_added = 1.0
 combo_drain = 0.25
+part_death_delay = 0.01
 
 [node name="snake root" parent="." instance=ExtResource("3_qnqq1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.116479, -0.295435)
@@ -534,6 +572,19 @@ transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 transform = Transform3D(0.263298, 0.263298, 0, -0.263298, 0.263298, 0, 0, 0, 0.37236, 0.0129056, 0, -0.199662)
 material_override = SubResource("StandardMaterial3D_qflgs")
 mesh = SubResource("BoxMesh_7vv5g")
+
+[node name="vfx_idle" type="GPUParticles3D" parent="snake root 3"]
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_vhqd8")
+cast_shadow = 0
+amount = 64
+lifetime = 2.0
+visibility_aabb = AABB(-4, -3, -4, 8, 8, 8)
+trail_lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_wn4s4")
+draw_passes = 2
+draw_pass_1 = SubResource("SphereMesh_cyst8")
+draw_pass_2 = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.439715)
@@ -777,19 +828,6 @@ amount = 64
 visibility_aabb = AABB(-4, -3, -4, 8, 8, 8)
 trail_lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_ru7u1")
-draw_passes = 2
-draw_pass_1 = SubResource("SphereMesh_cyst8")
-draw_pass_2 = null
-
-[node name="vfx_idle" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0791624, -2.89329)
-material_override = SubResource("StandardMaterial3D_vhqd8")
-cast_shadow = 0
-amount = 64
-lifetime = 2.0
-visibility_aabb = AABB(-4, -3, -4, 8, 8, 8)
-trail_lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_wn4s4")
 draw_passes = 2
 draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null

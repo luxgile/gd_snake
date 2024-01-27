@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8yusoumx1suf"]
+[gd_scene load_steps=22 format=3 uid="uid://8yusoumx1suf"]
 
 [ext_resource type="Script" path="res://src/snake/snake_part.gd" id="1_n1ar4"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_6iom5"]
@@ -21,11 +21,85 @@ material = SubResource("StandardMaterial3D_v21m4")
 radial_segments = 8
 rings = 4
 
-[node name="snake_part" type="Node3D" node_paths=PackedStringArray("pos_cacher")]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ugpho"]
+resource_local_to_scene = true
+vertex_color_use_as_albedo = true
+emission_enabled = true
+use_particle_trails = true
+distance_fade_max_distance = 20.0
+
+[sub_resource type="Gradient" id="Gradient_fra7n"]
+offsets = PackedFloat32Array(0, 0.662791)
+colors = PackedColorArray(0, 0.780962, 0.884148, 1, 0, 0.113725, 0.882353, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hgvus"]
+gradient = SubResource("Gradient_fra7n")
+
+[sub_resource type="Curve" id="Curve_y1ahr"]
+max_value = 100.0
+_data = [Vector2(0, 100), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_46c4x"]
+curve = SubResource("Curve_y1ahr")
+
+[sub_resource type="Curve" id="Curve_yik4a"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_h08k2"]
+curve = SubResource("Curve_yik4a")
+
+[sub_resource type="Curve" id="Curve_dg3c6"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241611, 0.885811), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ehq3"]
+curve = SubResource("Curve_dg3c6")
+
+[sub_resource type="Curve" id="Curve_v0sqg"]
+max_value = 100.0
+_data = [Vector2(0.4, 100), 0.0, 0.0, 0, 0, Vector2(0.8, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_74nj1"]
+curve = SubResource("Curve_v0sqg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xwyfv"]
+resource_local_to_scene = true
+emission_shape = 2
+emission_sphere_radius = 0.01
+direction = Vector3(0, 0, -1)
+spread = 180.0
+initial_velocity_max = 5.0
+velocity_limit_curve = SubResource("CurveTexture_74nj1")
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_min = 0.01
+scale_max = 0.05
+scale_curve = SubResource("CurveTexture_h08k2")
+color_initial_ramp = SubResource("GradientTexture1D_hgvus")
+emission_curve = SubResource("CurveTexture_46c4x")
+turbulence_enabled = true
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 0.05
+turbulence_influence_over_life = SubResource("CurveTexture_5ehq3")
+
+[sub_resource type="Curve" id="Curve_pxakw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_33pdq"]
+curve = SubResource("Curve_pxakw")
+
+[node name="snake_part" type="Node3D" node_paths=PackedStringArray("pos_cacher", "visuals", "vfx_dead", "forcefield")]
 transform = Transform3D(1, 4.37114e-08, -1.64203e-15, 7.9114e-15, -8.74228e-08, 1, 4.37114e-08, -1, -8.74228e-08, 0, 0, 0)
 script = ExtResource("1_n1ar4")
 delay_position = 4
 pos_cacher = NodePath("pos_cacher")
+visuals = NodePath("graphics")
+vfx_dead = NodePath("vfx_death")
+forcefield = NodePath("GPUParticlesAttractorSphere3D")
 
 [node name="Obstacle" type="Area3D" parent="."]
 script = ExtResource("3_t2v0m")
@@ -50,3 +124,20 @@ frames_to_cache = 50
 strength = 15.0
 attenuation = 0.000244141
 radius = 2.0
+
+[node name="vfx_death" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ugpho")
+cast_shadow = 0
+emitting = false
+amount = 64
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-4.75849, -5.01039, -8.36539, 10.4443, 10.013, 9.6939)
+transform_align = 2
+trail_enabled = true
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_xwyfv")
+draw_passes = 2
+draw_pass_1 = SubResource("RibbonTrailMesh_33pdq")
+draw_pass_2 = null

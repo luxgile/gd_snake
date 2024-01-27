@@ -12,6 +12,7 @@ var dash_start_pos: Vector3
 
 func _ready() -> void:
 	# snake_dash.portal_spawned.connect(func(vfx): _on_portal_spawned(vfx))
+	snake.died.connect(func(): tail_parent.visible = false)
 	tail_parent.visible = false
 	hub.game_state.state_changed.connect(_game_state_changed)
 	pass

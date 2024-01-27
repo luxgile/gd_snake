@@ -14,6 +14,7 @@ config/name="Super Spacesnek 2098"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
+config/icon="res://graphics/logo/logo.png"
 
 [autoload]
 
@@ -22,6 +23,8 @@ hub="*res://src/hub.gd"
 [display]
 
 window/size/mode=3
+window/size/borderless=true
+window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="res://graphics/mouse/icons8-navigation-32.png"
 
 [input]
