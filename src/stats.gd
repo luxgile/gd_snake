@@ -12,6 +12,18 @@ class RunData:
 	var best_time := 0
 	var best_combo := 1
 
+	func clone() -> RunData:
+		var clone = RunData.new()
+		clone.time_played = time_played
+		clone.times_played = times_played
+		clone.times_eaten = times_eaten
+		clone.times_dashed = times_dashed
+		clone.best_time = best_time
+		clone.best_length = best_length
+		clone.best_combo = best_combo
+		return clone
+
+var prev_data: RunData
 var data: RunData
 
 func _init() -> void:
@@ -35,6 +47,7 @@ func _process(delta: float) -> void:
 
 func _state_changed(state): 
 	if state == GameState.State.Playing:
+		prev_data = data.clone()
 		data.times_played += 1
 		hub.snake.dash_started.connect(func(): data.times_dashed += 1)
 		hub.snake.combo_updated.connect(func(combo): 

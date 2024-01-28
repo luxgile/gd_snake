@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=109 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://src/audio/bpm_snake.gd" id="10_vkaxp"]
 [ext_resource type="AudioStream" uid="uid://dwlk672kbu4dy" path="res://audio/food.wav" id="14_7pdru"]
 [ext_resource type="PackedScene" uid="uid://bap83xqb5sdqs" path="res://scenes/snake_ui.tscn" id="16_2n2m8"]
+[ext_resource type="Script" path="res://src/snake/snake_timer.gd" id="22_i5wl6"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -474,6 +475,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("root_at_camera:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.999998, 0.999997, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_is66v"]
 resource_name = "spawn"
@@ -502,12 +515,29 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 6.28319), Vector3(0, 0, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("root_at_camera:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.999998, 0.999997, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cr1h4"]
 _data = {
 "RESET": SubResource("Animation_bxtu7"),
 "spawn": SubResource("Animation_is66v")
 }
+
+[sub_resource type="Curve" id="Curve_hg0vs"]
+max_value = 10.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "animation", "vfx_death", "idle_sfx", "dash_cd", "dash_dur")]
 script = ExtResource("1_l2ibm")
@@ -520,7 +550,7 @@ vfx_death = NodePath("vfx_death")
 idle_sfx = NodePath("idle")
 idle_sfx_st_pitch = 0.9
 idle_sfx_speed_pitch = 0.05
-starting_parts = 50
+starting_parts = 3
 lifetime_per_part = SubResource("Curve_rscvh")
 part_size_per_part = SubResource("Curve_8wada")
 height_offset = 0.5
@@ -833,7 +863,7 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(0.697789, -0.418498, 0.581332, -1.49011e-08, 0.811572, 0.58425, -0.7163, -0.407683, 0.566309, 0, 0, 0)
+transform = Transform3D(-0.999531, 0.0144547, -0.0269015, -2.79396e-09, 0.880889, 0.47332, 0.0305389, 0.473098, -0.88048, 0, 0, 0)
 script = ExtResource("9_dp0x1")
 invert_forward = true
 rot_smooth = 0.1
@@ -852,3 +882,9 @@ size_2d_override = Vector2i(512, 512)
 libraries = {
 "": SubResource("AnimationLibrary_cr1h4")
 }
+
+[node name="death_timer" type="Node" parent="." node_paths=PackedStringArray("snake", "eater")]
+script = ExtResource("22_i5wl6")
+snake = NodePath("..")
+eater = NodePath("../food_eater")
+time_food = SubResource("Curve_hg0vs")

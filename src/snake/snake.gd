@@ -308,12 +308,12 @@ func kill_snake():
 
 	target_speed = Vector3.ZERO
 	died.emit()
-	await kill_process()
-	await get_tree().create_timer(0.5).timeout
+	await _kill_process()
+	await hub.stats_ui.show_stats()
 	hub.game_transition.end_game()
 	pass
 
-func kill_process():
+func _kill_process():
 	while parts.size() > 0:
 		var p = parts[0]
 		p.kill_part()
@@ -324,3 +324,4 @@ func kill_process():
 func spawn_anim():
 	animation.play("spawn")
 	pass
+
