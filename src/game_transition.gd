@@ -7,7 +7,7 @@ class_name GameTransition
 @export var spawn_dir: Vector3
 @export var world: World
 @export var camera: SnakeCamera
-@export var playing_song: BpmSong
+@export var playing_song: Array[BpmSong]
 @export var menu_song: BpmSong
 
 func _init() -> void:
@@ -15,7 +15,15 @@ func _init() -> void:
 	pass
 
 func _ready():
+	hub.bpm_master.song_done.connect(_on_song_done)
 	hub.bpm_master.play(menu_song)
+	pass
+
+func _on_song_done():
+	if hub.game_state.current_state == GameState.State.Menu:
+		hub.bpm_master.play(menu_song)
+	elif hub.game_state.current_state == GameState.State.Playing:
+		hub.bpm_master.play(playing_song.pick_random())
 	pass
 
 func start_game():
@@ -25,7 +33,7 @@ func start_game():
 		hub.bpm_master.stop()
 		await get_tree().create_timer(2.0).timeout
 
-		hub.bpm_master.play(playing_song)
+		hub.bpm_master.play(playing_song.pick_random())
 
 		await hub.bpm_master.new_beat
 		hub.world.spawn_planet()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=3 uid="uid://deq23dblkhoqc"]
+[gd_scene load_steps=112 format=3 uid="uid://deq23dblkhoqc"]
 
 [ext_resource type="Script" path="res://src/snake/snake.gd" id="1_l2ibm"]
 [ext_resource type="Script" path="res://src/position_cacher.gd" id="2_gh030"]
@@ -7,21 +7,23 @@
 [ext_resource type="Script" path="res://src/snake/food_eater.gd" id="4_k57yk"]
 [ext_resource type="PackedScene" uid="uid://bycpu5j0kbg5q" path="res://graphics/snake/snake_visuals_3.tscn" id="4_n4vtc"]
 [ext_resource type="Script" path="res://src/snake/snake_dash_vfx.gd" id="4_pdr7o"]
+[ext_resource type="AudioStream" uid="uid://dk1o4d4oeb6mi" path="res://audio/snake/idle.wav" id="5_g6mdd"]
 [ext_resource type="PackedScene" uid="uid://cnf0rn20pb3eb" path="res://scenes/vfxs/vfx_dash_sphere.tscn" id="5_jr8wf"]
+[ext_resource type="AudioStream" uid="uid://efiht0i3wv1g" path="res://audio/snake/death.wav" id="6_g6y53"]
 [ext_resource type="Script" path="res://src/snake/snake_tail.gd" id="6_v6ykd"]
-[ext_resource type="AudioStream" uid="uid://b43snymljulnp" path="res://audio/drift/drift_high_2.wav" id="7_5ob5s"]
 [ext_resource type="PackedScene" uid="uid://bvj3kcjhg1cr" path="res://scenes/portal_subtractor.tscn" id="7_5vdxi"]
-[ext_resource type="AudioStream" uid="uid://dk1o4d4oeb6mi" path="res://audio/idle.wav" id="8_2aud3"]
-[ext_resource type="AudioStream" uid="uid://2jrlik13e8qq" path="res://audio/drift/drift up.wav" id="8_41rmj"]
+[ext_resource type="AudioStream" uid="uid://6cxmqq5exyg5" path="res://audio/snake/drift/drift up 2.wav" id="7_6ii6g"]
+[ext_resource type="AudioStream" uid="uid://b43snymljulnp" path="res://audio/snake/drift/drift_high_2.wav" id="8_7oeda"]
 [ext_resource type="Script" path="res://src/snake/snake_drift.gd" id="8_bacst"]
-[ext_resource type="AudioStream" uid="uid://cixco5hhg17ge" path="res://audio/drift/drift_low_2.wav" id="8_roh3r"]
 [ext_resource type="Script" path="res://utils/src/look_at_camera.gd" id="9_dp0x1"]
-[ext_resource type="AudioStream" uid="uid://b2i5wie04e7k4" path="res://audio/drift/drift_boost.wav" id="9_ggic1"]
-[ext_resource type="AudioStream" uid="uid://go6aek80hkva" path="res://audio/portal.wav" id="10_bc1v5"]
+[ext_resource type="AudioStream" uid="uid://cixco5hhg17ge" path="res://audio/snake/drift/drift_low_2.wav" id="9_l3kvm"]
+[ext_resource type="AudioStream" uid="uid://dvu2hsoey558j" path="res://audio/snake/drift/drift_boost 2.wav" id="10_o8wfd"]
 [ext_resource type="Script" path="res://src/audio/bpm_snake.gd" id="10_vkaxp"]
-[ext_resource type="AudioStream" uid="uid://dwlk672kbu4dy" path="res://audio/food.wav" id="14_7pdru"]
+[ext_resource type="AudioStream" uid="uid://go6aek80hkva" path="res://audio/snake/portal.wav" id="15_vwy12"]
 [ext_resource type="PackedScene" uid="uid://bap83xqb5sdqs" path="res://scenes/snake_ui.tscn" id="16_2n2m8"]
+[ext_resource type="AudioStream" uid="uid://dwlk672kbu4dy" path="res://audio/snake/food.wav" id="19_egky0"]
 [ext_resource type="Script" path="res://src/snake/snake_timer.gd" id="22_i5wl6"]
+[ext_resource type="Texture2D" uid="uid://dnfeq53upgipo" path="res://graphics/vignette 3.png" id="24_30get"]
 
 [sub_resource type="Curve" id="Curve_rscvh"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -539,7 +541,10 @@ max_value = 10.0
 _data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "animation", "vfx_death", "idle_sfx", "dash_cd", "dash_dur")]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hofip"]
+texture = ExtResource("24_30get")
+
+[node name="snake" type="CharacterBody3D" node_paths=PackedStringArray("body_vfx", "position_cacher", "snake_head", "animation", "vfx_death", "sfx_death", "idle_sfx", "dash_cd", "dash_dur")]
 script = ExtResource("1_l2ibm")
 s_snake_part = ExtResource("2_ja1wh")
 body_vfx = NodePath("snake root 3/vfx_idle")
@@ -547,6 +552,7 @@ position_cacher = NodePath("pos_cacher")
 snake_head = NodePath("snake root 3")
 animation = NodePath("animation")
 vfx_death = NodePath("vfx_death")
+sfx_death = NodePath("death")
 idle_sfx = NodePath("idle")
 idle_sfx_st_pitch = 0.9
 idle_sfx_speed_pitch = 0.05
@@ -648,9 +654,12 @@ transform = Transform3D(1.71962e-16, 9.75285e-09, 0.09, 0.09, -9.75285e-09, 0, 3
 mesh = SubResource("CapsuleMesh_6b1v5")
 skeleton = NodePath("../..")
 
+[node name="death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_g6y53")
+
 [node name="idle" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("8_2aud3")
-volume_db = -15.0
+stream = ExtResource("5_g6mdd")
+volume_db = -5.0
 max_distance = 15.0
 bus = &"SFXs"
 
@@ -670,21 +679,21 @@ drift_high_start_sfx = NodePath("drift_high_up")
 drift_turbo_sfx = NodePath("drift_turbo")
 
 [node name="drift_high_up" type="AudioStreamPlayer" parent="drift"]
-stream = ExtResource("8_41rmj")
-volume_db = -20.0
+stream = ExtResource("7_6ii6g")
+volume_db = -5.0
 bus = &"SFXs"
 
 [node name="drift_high" type="AudioStreamPlayer" parent="drift"]
-stream = ExtResource("7_5ob5s")
-volume_db = -20.0
+stream = ExtResource("8_7oeda")
+volume_db = 3.0
 
 [node name="drift_low" type="AudioStreamPlayer" parent="drift"]
-stream = ExtResource("8_roh3r")
-volume_db = -20.0
+stream = ExtResource("9_l3kvm")
 
 [node name="drift_turbo" type="AudioStreamPlayer" parent="drift"]
-stream = ExtResource("9_ggic1")
-volume_db = -20.0
+stream = ExtResource("10_o8wfd")
+volume_db = -8.0
+pitch_scale = 0.8
 
 [node name="tail" type="Node" parent="." node_paths=PackedStringArray("snake", "snake_dash", "tail_parent", "tail")]
 script = ExtResource("6_v6ykd")
@@ -723,8 +732,8 @@ vfxs = NodePath("../vfx_dash")
 sfx = NodePath("AudioStreamPlayer")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="dash"]
-stream = ExtResource("10_bc1v5")
-volume_db = -30.0
+stream = ExtResource("15_vwy12")
+volume_db = -5.0
 pitch_scale = 0.89
 bus = &"SFXs"
 
@@ -754,8 +763,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0179815, 0, -0.811563)
 shape = SubResource("BoxShape3D_ve38m")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="food_eater"]
-stream = ExtResource("14_7pdru")
-volume_db = -25.0
+stream = ExtResource("19_egky0")
+volume_db = 10.0
 pitch_scale = 0.8
 bus = &"SFXs"
 
@@ -863,10 +872,9 @@ draw_pass_1 = SubResource("SphereMesh_cyst8")
 draw_pass_2 = null
 
 [node name="root_at_camera" type="Node3D" parent="."]
-transform = Transform3D(-0.999531, 0.0144547, -0.0269015, -2.79396e-09, 0.880889, 0.47332, 0.0305389, 0.473098, -0.88048, 0, 0, 0)
+transform = Transform3D(-0.945518, 0.168894, -0.278329, 0, 0.85491, 0.518773, 0.325564, 0.490508, -0.808336, 0, 0, 0)
 script = ExtResource("9_dp0x1")
 invert_forward = true
-rot_smooth = 0.1
 
 [node name="Sprite3D" type="Sprite3D" parent="root_at_camera"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
@@ -883,8 +891,28 @@ libraries = {
 "": SubResource("AnimationLibrary_cr1h4")
 }
 
-[node name="death_timer" type="Node" parent="." node_paths=PackedStringArray("snake", "eater")]
+[node name="death_timer" type="Node" parent="." node_paths=PackedStringArray("snake", "eater", "panel")]
 script = ExtResource("22_i5wl6")
 snake = NodePath("..")
 eater = NodePath("../food_eater")
+start_time = 20
 time_food = SubResource("Curve_hg0vs")
+start_cutoff = 10.0
+panel = NodePath("Control/vignette")
+
+[node name="Control" type="Control" parent="death_timer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="vignette" type="Panel" parent="death_timer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_hofip")

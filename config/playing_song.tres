@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://uvrq74rsgiuo"]
-
-[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_yyfej"]
-[ext_resource type="AudioStream" uid="uid://b3vgsx8trk8v4" path="res://audio/Carpenter Brut - Le Perv 120bpm.wav" id="2_6gs8k"]
-
-[resource]
-script = ExtResource("1_yyfej")
-song = ExtResource("2_6gs8k")
-bpm = 120.0

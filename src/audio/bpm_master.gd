@@ -6,6 +6,7 @@ class_name BpmMaster
 @export var start_on_play: bool
 
 signal new_beat(int)
+signal song_done
 
 var is_playing: bool
 var beat_per_second: float
@@ -30,7 +31,7 @@ func _process(delta: float) -> void:
 		return
 
 	var play_time = audio_player.get_playback_position() + AudioServer.get_time_since_last_mix()
-	play_time -= AudioServer.get_output_latency()
+	play_time -= AudioServer.get_output_latency() + song.start_offset
 	var beat = roundf(play_time / beat_per_second)
 	if beat != prev_beat:
 		new_beat.emit(beat)

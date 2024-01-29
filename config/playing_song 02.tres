@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://uj1lv6ta4x3k"]
+
+[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_8y2eb"]
+[ext_resource type="AudioStream" uid="uid://dacx1sc5cam8i" path="res://audio/music/alex-productions-cyberpunk-computer-game-idra(chosic.com).wav" id="2_jgup5"]
+
+[resource]
+script = ExtResource("1_8y2eb")
+song = ExtResource("2_jgup5")
+bpm = 112.0
+start_offset = 0.0

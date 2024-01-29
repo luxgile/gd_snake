@@ -1,4 +1,3 @@
-@tool
 extends Node3D
 class_name LookAtCamera
 
@@ -6,7 +5,6 @@ class_name LookAtCamera
 @export_range(0, 1) var rot_smooth: float = 0
 
 var _camera: Node3D
-
 
 func _process(delta: float) -> void:
 	if _camera != null:
@@ -18,8 +16,5 @@ func _process(delta: float) -> void:
 		forward = lerp(forward, local_forward, rot_smooth)
 		look_at(global_position + forward, cam_up)
 	else:
-		if Engine.is_editor_hint():
-			_camera = EditorInterface.get_editor_viewport_3d().get_camera_3d()
-		else:
-			_camera = get_viewport().get_camera_3d()
+		_camera = get_viewport().get_camera_3d()
 	pass

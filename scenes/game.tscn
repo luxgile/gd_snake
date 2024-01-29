@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://ban4e5blhjue6"]
+[gd_scene load_steps=57 format=3 uid="uid://ban4e5blhjue6"]
 
 [ext_resource type="PackedScene" uid="uid://deq23dblkhoqc" path="res://scenes/snake.tscn" id="1_a2gub"]
 [ext_resource type="Script" path="res://src/food_generator.gd" id="1_e42v8"]
@@ -11,11 +11,14 @@
 [ext_resource type="Script" path="res://src/game_state.gd" id="7_ji773"]
 [ext_resource type="Script" path="res://src/game_transition.gd" id="7_q5v8g"]
 [ext_resource type="Script" path="res://src/audio/bpm_master.gd" id="9_d0lcr"]
-[ext_resource type="AudioStream" uid="uid://d3y8qps3chkmq" path="res://audio/drums 100bpm.wav" id="9_vojrl"]
+[ext_resource type="AudioStream" uid="uid://d3y8qps3chkmq" path="res://audio/music/old/drums 100bpm.wav" id="9_vojrl"]
+[ext_resource type="Resource" uid="uid://uj1lv6ta4x3k" path="res://config/playing_song 02.tres" id="11_2dm24"]
 [ext_resource type="Resource" uid="uid://cy24ssdnrjrii" path="res://config/menu_song.tres" id="11_oysb2"]
-[ext_resource type="Resource" uid="uid://uvrq74rsgiuo" path="res://config/playing_song.tres" id="11_rore3"]
+[ext_resource type="Resource" uid="uid://uvrq74rsgiuo" path="res://config/playing_song 01.tres" id="11_rore3"]
+[ext_resource type="Resource" uid="uid://hgmn2tys5gh4" path="res://config/playing_song 03.tres" id="12_0wg5y"]
 [ext_resource type="FontFile" uid="uid://bpf70qe6pracn" path="res://graphics/fonts/Robofan Free.otf" id="12_n6rv2"]
 [ext_resource type="Shader" path="res://graphics/shaders/glitch.gdshader" id="12_ocjw8"]
+[ext_resource type="Resource" uid="uid://bn186w0exo6hd" path="res://config/playing_song 04.tres" id="13_hhg8g"]
 [ext_resource type="Script" path="res://src/main_menu_ui.gd" id="17_73ve2"]
 [ext_resource type="StyleBox" uid="uid://cad0efij6c2tr" path="res://graphics/styles/progress_bar_bg.tres" id="19_0h3rp"]
 [ext_resource type="PackedScene" uid="uid://b420wiy4mdgb3" path="res://scenes/ui/button.tscn" id="20_72avc"]
@@ -381,6 +384,21 @@ shader_parameter/shake_color_rate = 0.01
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbf3y"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_biq5v"]
+bg_color = Color(0, 0.0823529, 0.0980392, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.780962, 0.884148, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xparf"]
+bg_color = Color(0, 0, 0, 0.603922)
+
 [node name="game" type="Node3D"]
 
 [node name="food_spawner" type="Node" parent="." node_paths=PackedStringArray("planet")]
@@ -464,7 +482,7 @@ glitch_panel = NodePath("../gameplay_menu/transition_glitch")
 spawn_dir = Vector3(0, 1, 0)
 world = NodePath("../world")
 camera = NodePath("../camera")
-playing_song = ExtResource("11_rore3")
+playing_song = Array[Resource("res://src/audio/bpm_song.gd")]([ExtResource("11_rore3"), ExtResource("11_2dm24"), ExtResource("12_0wg5y"), ExtResource("13_hhg8g")])
 menu_song = ExtResource("11_oysb2")
 
 [node name="game_state" type="Node" parent="."]
@@ -478,7 +496,7 @@ audio_player = NodePath("audio_player")
 
 [node name="audio_player" type="AudioStreamPlayer" parent="bpm_master"]
 stream = ExtResource("9_vojrl")
-volume_db = -30.0
+volume_db = -10.0
 bus = &"Music"
 
 [node name="gameplay_menu" type="Control" parent="."]
@@ -583,6 +601,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="stats_menu" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -751,11 +770,9 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_r8f0a")
 layout_mode = 2
 text = "PLAY"
 
-[node name="HSeparator4" type="HSeparator" parent="main_menu/VBoxContainer"]
+[node name="credits" parent="main_menu/VBoxContainer" instance=ExtResource("20_72avc")]
 layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.3
-theme_override_styles/separator = SubResource("StyleBoxEmpty_sbf3y")
+text = "CREDITS"
 
 [node name="exit" parent="main_menu/VBoxContainer" instance=ExtResource("20_72avc")]
 layout_mode = 2
@@ -767,6 +784,98 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_sbf3y")
 
+[node name="credits" type="Panel" parent="main_menu"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.298611
+anchor_top = 0.0447531
+anchor_right = 0.701389
+anchor_bottom = 0.955247
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_biq5v")
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="main_menu/credits"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0193966
+anchor_top = 0.0152542
+anchor_right = 0.980603
+anchor_bottom = 0.852542
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xparf")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="main_menu/credits/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Virus by Alex-Productions | https://onsound.eu/
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY 3.0
+https://creativecommons.org/licenses/by/3.0/
+"
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Sport Racing Car | DRIVE by Alex-Productions | https://onsound.eu/
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY 3.0
+https://creativecommons.org/licenses/by/3.0/
+"
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Cyberpunk Computer Game | IDRA by Alex-Productions | https://onsound.eu/
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY 3.0
+https://creativecommons.org/licenses/by/3.0/
+"
+autowrap_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = " Noise by Alex-Productions | https://onsound.eu/
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons CC BY 3.0
+https://creativecommons.org/licenses/by/3.0/
+"
+autowrap_mode = 2
+
+[node name="play" parent="main_menu/credits" instance=ExtResource("20_72avc")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.309267
+anchor_top = 0.89322
+anchor_right = 0.690733
+anchor_bottom = 0.969492
+grow_horizontal = 2
+grow_vertical = 0
+text = "CLOSE"
+metadata/_edit_use_anchors_ = true
+
 [node name="main_menu_ui" type="Node" parent="main_menu" node_paths=PackedStringArray("root", "b_exit", "b_start")]
 script = ExtResource("17_73ve2")
 root = NodePath("..")
@@ -775,3 +884,6 @@ b_start = NodePath("../VBoxContainer/play")
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource("22_chjxc")
+
+[connection signal="pressed" from="main_menu/VBoxContainer/credits" to="main_menu/credits" method="set_visible" binds= [true]]
+[connection signal="pressed" from="main_menu/credits/play" to="main_menu/credits" method="set_visible" binds= [false]]

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://hgmn2tys5gh4"]
+
+[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_tjjvi"]
+[ext_resource type="AudioStream" uid="uid://bumehph24aouo" path="res://audio/music/Hidden-Official-(chosic.com).wav" id="2_7et3y"]
+
+[resource]
+script = ExtResource("1_tjjvi")
+song = ExtResource("2_7et3y")
+bpm = 100.0
+start_offset = 0.0

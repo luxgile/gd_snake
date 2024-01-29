@@ -8,6 +8,7 @@ class_name Snake
 @export var snake_head: Node3D
 @export var animation: AnimationPlayer
 @export var vfx_death: GPUParticles3D
+@export var sfx_death: AudioStreamPlayer
 @export var idle_sfx: AudioStreamPlayer3D
 @export var idle_sfx_st_pitch: float
 @export var idle_sfx_speed_pitch: float
@@ -301,6 +302,7 @@ func _update_parts_visuals():
 func kill_snake():
 	is_dead = true
 	snake_head.visible = false
+	sfx_death.play()
 	vfx_death.restart()
 	vfx_death.emitting = true
 	for part in parts:

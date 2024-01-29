@@ -14,11 +14,16 @@ config/name="Super Spacesnek 2098"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
-config/icon="res://graphics/logo/logo.png"
+config/icon="res://graphics/logo/logo2.png"
+config/windows_native_icon="res://graphics/logo/logo.ico"
 
 [autoload]
 
 hub="*res://src/hub.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://bn186w0exo6hd"]
+
+[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_n8nhg"]
+[ext_resource type="AudioStream" uid="uid://bnyp7kovp6fmv" path="res://audio/music/Noise-Long-Version-chosic.com_.wav" id="2_q0uk1"]
+
+[resource]
+script = ExtResource("1_n8nhg")
+song = ExtResource("2_q0uk1")
+bpm = 112.0
+start_offset = 0.0

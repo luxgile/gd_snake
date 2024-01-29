@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://6cxmqq5exyg5"
+path="res://.godot/imported/drift up 2.wav-54aa21f5adce314716339c019be8b73e.sample"
+
+[deps]
+
+source_file="res://audio/snake/drift/drift up 2.wav"
+dest_files=["res://.godot/imported/drift up 2.wav-54aa21f5adce314716339c019be8b73e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

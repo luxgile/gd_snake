@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BpmSong" load_steps=3 format=3 uid="uid://uvrq74rsgiuo"]
+
+[ext_resource type="Script" path="res://src/audio/bpm_song.gd" id="1_1hv5u"]
+[ext_resource type="AudioStream" uid="uid://c8gyl56a46gw6" path="res://audio/music/DRIVE(chosic.com).wav" id="2_16d34"]
+
+[resource]
+script = ExtResource("1_1hv5u")
+song = ExtResource("2_16d34")
+bpm = 102.0
+start_offset = 0.0
