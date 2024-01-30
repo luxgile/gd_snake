@@ -817,15 +817,33 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Game and assets created by: Guillermo Abajo"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "MUSIC"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label5" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Virus by Alex-Productions | https://onsound.eu/
 Music promoted by https://www.chosic.com/free-music/all/
 Creative Commons CC BY 3.0
 https://creativecommons.org/licenses/by/3.0/
 "
+horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
+[node name="HSeparator4" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
@@ -836,6 +854,7 @@ Music promoted by https://www.chosic.com/free-music/all/
 Creative Commons CC BY 3.0
 https://creativecommons.org/licenses/by/3.0/
 "
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
@@ -849,6 +868,7 @@ Music promoted by https://www.chosic.com/free-music/all/
 Creative Commons CC BY 3.0
 https://creativecommons.org/licenses/by/3.0/
 "
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="HSeparator3" type="HSeparator" parent="main_menu/credits/ScrollContainer/VBoxContainer2"]
@@ -862,6 +882,7 @@ Music promoted by https://www.chosic.com/free-music/all/
 Creative Commons CC BY 3.0
 https://creativecommons.org/licenses/by/3.0/
 "
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="play" parent="main_menu/credits" instance=ExtResource("20_72avc")]
